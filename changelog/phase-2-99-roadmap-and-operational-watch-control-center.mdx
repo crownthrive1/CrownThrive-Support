@@ -1,0 +1,372 @@
+---
+title: "Phase 2.99 — Roadmap & Operational Watch Control Center"
+sidebarTitle: "2.99 Roadmap & Watch"
+description: "Canonical Phase 2.99 control surface linking the ten-phase institutional roadmap, hard-exit gates, GitHub execution board, domain/engine/license/provider alerts, THIVEBASE capacity and downstream phase propagation."
+icon: "tower-control"
+keywords: ["Phase 2.99", "roadmap", "operational watch", "domains", "engines", "licenses", "THIVEBASE", "GitHub", "hard exit", "alerts"]
+---
+
+# Phase 2.99 — Roadmap & Operational Watch Control Center
+
+This page is the governed public-safe control surface for material operational alerts that can change CrownThrive's current-state certification, provider readiness, continuity posture or downstream phase plan. It does not convert marketplace listings, source due dates, chat notices or provider capabilities into current production truth.
+
+```yaml
+control_id: ct.control.phase-2-99.operational-watch
+roadmap_generation: ten_phase_v1
+roadmap_decision: CT-ADR-ROADMAP-010
+current_top_level_phase: 2
+current_subphase: 2.99
+phase_3_entry: blocked_pending_phase_2_99_hard_exit
+github_roadmap_issue: 100
+github_operational_watch_issue: 99
+vendor_engine_closure_issue: 118
+thivebase_issue: 98
+thivebase_draft_pr: 97
+hard_exit_issue: 84
+updated_on: 2026-08-19
+```
+
+## Current program state
+
+Phase 2.99 remains the active control plane. The canonical hard-exit ledger currently records **two passing hard-exit categories and six blocking categories**. Phase 3 is not open.
+
+### Designated-current machine evidence — 2026-08-19 22:04 UTC
+
+Current operational truth is validated against `ct.manifest.api-mcp-current-control-state.v1`. The older S107/API-MCP snapshot from 02:27 UTC is preserved as **historical superseded evidence** and is machine-rejected if presented as designated-current state. Dated watch sections below remain historical observations unless this designated-current section or a later evidence record supersedes them.
+
+The current sanitized control-plane snapshot records: `crownthrive-api-control` v3 ACTIVE with 32 registered / 20 enabled D0 read tools and provider writes closed; CrownThrive IO `read_verified` with founder-unlimited monthly-call and scheduled-probe budget policies passed; ThriveTools SEO `read_verified` with Vault continuity, authenticated reads and read-only MCP adapter passed while its SRE probe semantics, unresolved endpoint families and external-client conformance remain open; Collab Portal **6/7 fail-closed** with provider webhook configuration verified but real sender/delivery integrity still blocked after a reversible provider update produced no callback; integration-control security remains **12/12 RLS-enabled with 12 service-role-only policies and 0 Security Advisor lints**; Reward Loyalty remains **v4 production**, while **v5.27.0 is target/reference only** and v5 production/API/MCP writes remain closed. Partnero/Crown Affiliates and AdLuxe remain separate engines/networks from Reward Loyalty/CrownRewards.
+
+| Gate | Current state | Operational relationship |
+| --- | --- | --- |
+| `CT-P299-GATE-001` | `not_met` | current certification across the 68/82/85/74 source universes, including domain/provider/engine evidence |
+| `CT-P299-GATE-002` | `not_met` | Help Center 795 terminal disposition and P0/P1 closure |
+| `CT-P299-GATE-003` | `not_met` | unresolved external/provider state and explicit deferral closure |
+| `CT-P299-GATE-004` | `pass` | GitHub repository/security/governance sequence; do not reopen from stale classic-protection output alone |
+| `CT-P299-GATE-005` | `pass` | `integration_control` RLS security disposition |
+| `CT-P299-GATE-006` | `not_met` | Collab Portal seven-predicate certification; current ledger is 6/7 |
+| `CT-P299-GATE-007` | `not_met` | restricted-source, continuity and recovery final adversarial audit |
+| `CT-P299-GATE-008` | `not_met` | final exact commit/schema/infrastructure/source snapshot and Phase 3 packet |
+
+## GitHub execution projections
+
+GitHub issues are execution projections of this institutional state:
+
+- **#100 — CrownThrive Institutional Roadmap Control Board — Phases 1–10** is the phase/dependency board.
+- **#99 — Phase 2.99 Operational Watch** is the current domain, engine, license, provider/API, migration and capacity queue.
+- **#98 — THIVEBASE capacity/provider/partner backlog** owns THIVEBASE usage governance and provider/partner overlay work.
+- **#84 — Phase 2.99 hard-exit closure** remains the final Phase 2.99 acceptance authority.
+- **PR #97 — THIVEBASE formalization** remains draft/open and therefore is not canonical current-main state.
+
+A native GitHub Projects board may later project the same records. Until a connected Projects write surface is available, issue #100 is the governed issue-backed roadmap board; lack of a native Project does not alter the phase namespace or hard gates.
+
+## Operational-watch record contract
+
+Every material alert must resolve to a stable record with at least:
+
+```yaml
+watch_id: CT-WATCH-*
+subject: "platform/provider/domain/license"
+observed_on: YYYY-MM-DD
+source_state: source_due_date | provider_verified | marketplace_snapshot | runtime_verified | founder_admin_evidence | unknown
+phase: "2.99"
+hard_exit_gate: CT-P299-GATE-001 | CT-P299-GATE-003 | CT-P299-GATE-006 | CT-P299-GATE-008 | downstream_only
+severity: green | watch | plan | action_needed | scale_gate | blocked | resolved | unknown
+target_date: YYYY-MM-DD | null
+current_state: "..."
+next_action: "..."
+github_issue: 99
+closure_evidence: null
+```
+
+`UNKNOWN` is a valid and required state. It cannot be normalized to zero, inactive, unavailable or failed without evidence.
+
+## Domain renewal and custody watch
+
+The dates below are the current **source/registry due-date queue**, not independent registrar proof. Renewal completion closes only when registrar/custody evidence supports it.
+
+| Watch ID | Domain | Source due | Current watch | Gate |
+| --- | --- | --: | --- | --- |
+| `CT-WATCH-DOM-001` | `crownlytics.com` | 2026-08-28 | ACTION NEEDED | GATE-001 |
+| `CT-WATCH-DOM-002` | `thrivetools.io` | 2026-08-30 | ACTION NEEDED | GATE-001 |
+| `CT-WATCH-DOM-003` | `lyftedsociety.com` | 2026-09-04 | PLAN | GATE-001 |
+| `CT-WATCH-DOM-004` | `thezazaroom.com` | 2026-09-04 | PLAN | GATE-001 |
+| `CT-WATCH-DOM-005` | `thrivepush.io` | 2026-09-04 | PLAN | GATE-001 |
+| `CT-WATCH-DOM-006` | `crownthriveu.com` | 2026-09-11 | PLAN | GATE-001 |
+| `CT-WATCH-DOM-007` | `melaninmagicsuites.com` | 2026-09-12 | PLAN | GATE-001 |
+| `CT-WATCH-DOM-008` | `themaneexperience.com` | 2026-09-12 | PLAN | GATE-001 |
+| `CT-WATCH-DOM-009` | `thrivebookings.com` | 2026-09-22 | WATCH | GATE-001 |
+| `CT-WATCH-DOM-010` | `thrivetravels.com` | 2026-09-23 | WATCH | GATE-001 |
+| `CT-WATCH-DOM-011` | `luxperiences.com` | 2026-09-24 | WATCH | GATE-001 |
+| `CT-WATCH-DOM-012` | `melanatedvoicesplatform.com` | 2026-09-25 | WATCH | GATE-001 |
+| `CT-WATCH-DOM-013` | `melanatedtv.com` | 2026-09-25 | WATCH | GATE-001 |
+| `CT-WATCH-DOM-014` | `melanatedvoicestv.com` | 2026-09-25 | WATCH | GATE-001 |
+| `CT-WATCH-DOM-015` | `thrivepeer.com` | 2026-09-25 | WATCH | GATE-001 |
+| `CT-WATCH-DOM-016` | `thrivepeers.com` | 2026-09-26 | WATCH | GATE-001 |
+| `CT-WATCH-DOM-017` | `crownthriveholdings.com` | unknown | BLOCKED — `Verify/register` source state | GATE-001/003 |
+
+`crownthrive.com`, `shopmelaninmagic.com`, `locticians.com`, `musiqhead.com` and `naturalhair.me` remain in the due-date recovery queue until an authoritative next-due date is attached.
+
+## Engine, support and license watch
+
+| Watch ID | Engine / assignment | Target date/state | Required disposition | Gate |
+| --- | --- | --- | --- | --- |
+| `CT-WATCH-ENG-001` | TableTrack Universal Modules → ThriveKiln | support source date 2026-09-13; provider-date contradiction | prior same-day watch evidence observed 2026-08-13 while currently retrievable CodeCanyon metadata shows 2026-08-06 for the main app/bundle; archive the authenticated current packages, diff customizations and preserve both dated observations until package/changelog evidence resolves the exact latest release | GATE-001/003 |
+| `CT-WATCH-ENG-002` | Streamit Laravel → Melanated TV | target/reference v2.2.0 (2026-06-09); support source date 2026-09-27 | provider docs confirm v2.2.0 and PHP 8.2 support; do not infer installed version; stage/diff before any upgrade and reconcile Regular license against paid viewer/subscription/PPV use | GATE-001/003 |
+| `CT-WATCH-ENG-003` | QuiziX → ThriveArena | target/reference v3.0.4 (2026-04-24); support source date 2026-09-28 | provider changelog confirms v3.0.4; preserve installed/custom state as UNKNOWN until CrownThrive evidence; stage/diff before upgrade and decide support disposition | GATE-001/003 |
+| `CT-WATCH-ENG-004` | 66biolinks → CrownThrive IO | target/reference v70.0.0 (2026-08-07); staged migration | provider changelog/download confirm v70.0.0; inventory legacy AIX Documents/Templates; verify PHP 8.4\+; support expiry remains separate from update entitlement | GATE-001/003 |
+| `CT-WATCH-ENG-005` | 66analytics → CrownLytics | provider-version contradiction | current explicit provider changelog/download expose v54.0.0 (2026-06-26), while the product page reports an additional 2026-08-07 update without a version; prior v55 watch evidence is therefore unresolved and must not be treated as installed or newly authoritative until account/package evidence identifies the exact release | GATE-001/003 |
+| `CT-WATCH-ENG-006` | MagicAds → AdLuxe Studio | license \+ provider-version reconciliation | prior same-day watch evidence recorded v2.0 dated 2026-08-17, while currently retrievable marketplace content still exposes v1.9 / July metadata; preserve the contradiction, stage only an authenticated current package, and keep commercial SaaS use closed until license authority is reconciled | GATE-001/003 |
+| `CT-WATCH-ENG-007` | RKHM → Melanated Voices | support expired | archive latest source and diff against CrownThrive modifications before rebuild | GATE-001/003 |
+| `CT-WATCH-ENG-008` | CreatorPulse → Lyfted Society | upgrade controlled | backup files/database; use corrected v2 upgrade path | GATE-001/003 |
+| `CT-WATCH-ENG-009` | 66uptime → Ecosystem Status | planned acquisition; provider-version contradiction | explicit provider changelog/download currently identify v57.0.0 (2026-06-26), while the product page reports another update on 2026-08-07 without an explicit version; exact current release remains unresolved, so do not purchase or stage until authenticated package/changelog evidence reconciles the surfaces; validate PHP 8.4 compatibility before any deployment | GATE-001/003 |
+| `CT-WATCH-ENG-010` | Reward Loyalty v4 → v5 / My CrownRewards | production v4; target/reference v5.27.0 (2026-08-14) | preserve same-day official-provider evidence establishing v5.27.0 even though currently cached public docs lag; keep v4 production intact until backup, staging, PHP 8.4.1\+, customization and integration validation; v5 REST/Agent API/MCP remain gated | GATE-001/003 |
+
+Marketplace prices are comparison snapshots only. They must never overwrite the actual historical CrownThrive purchase cost when that evidence is recovered.
+
+## THIVEBASE and provider/API watch
+
+| Watch ID | Lane | Current state | Next gate |
+| --- | --- | --- | --- |
+| `CT-WATCH-CAP-001` | THIVEBASE measured capacity | GREEN on currently measured database/storage/request signals | connect authoritative billing-period usage; preserve unknown metrics as `UNKNOWN` |
+| `CT-WATCH-API-001` | Partnero → Crown Affiliates | BLOCKED / fail-closed | server-side credential \+ webhook signing secret; API/MCP conformance; visitor/signup/transaction tracking |
+| `CT-WATCH-API-002` | Adserver.Online → AdLuxe Network | UNVERIFIED account entitlement | authenticate CrownThrive account; verify plan limits and production API entitlement |
+| `CT-WATCH-API-003` | AdLuxe Studio | writes closed | license \+ public-price arithmetic \+ provider write certification |
+| `CT-WATCH-API-004` | Stripe institutional path | BLOCKED | scoped server credential \+ outbound API \+ webhook signature verification |
+| `CT-WATCH-API-005` | Collab Portal | 6/7 predicates passed; split receivers statically hardened | live provider sender/delivery integrity remains blocked; directly maps to `CT-P299-GATE-006` |
+| `CT-WATCH-API-006` | CrownThrive IO governed requests | read health verified; founder policy classifies monthly API calls as unlimited; request counter is telemetry | continue hourly availability probe plus monthly ecosystem heartbeat; provider writes remain closed |
+| `CT-WATCH-API-007` | ThriveTools SEO | dual-Vault credential continuity \+ eight read families certified; read-only MCP projection passed | reconcile exact team-member/payment/log paths; keep provider writes disabled |
+
+THIVEBASE capacity thresholds remain: GREEN below 50%, WATCH 50–69%, PLAN 70–79%, ACTION NEEDED 80–89%, SCALE GATE 90%\+. Forecast-based escalation may act earlier. A provider-side metric that is unavailable is not 0%.
+
+## Resolved controls
+
+### `CT-WATCH-RES-001` — GitHub `main` ruleset perimeter
+
+**RESOLVED / PASS.** Issue #83 is completed. The current machine governance record states that ruleset-based protection is active, the required `CrownThrive governed merge gate` perimeter has behavioral negative proof, strict/current-with-main behavior is required, force push and branch deletion are blocked, routine bypass is disabled and D3 break-glass authority is separately governed.
+
+GitHub's classic branch-protection subobject may still report classic checks as off while the branch itself reports protected through ruleset enforcement. That classic subobject must not be used to resurrect the superseded `main is unprotected` conclusion.
+
+### `CT-WATCH-RES-002` — integration-control RLS
+
+**RESOLVED / PASS for the current Phase 2.99 security predicate.** The canonical hard-exit ledger records the current integration-control RLS security disposition as passed. New schema/table/policy changes can reopen the control only through new evidence.
+
+## Ten-phase propagation map
+
+| Phase | Watch impact |
+| --- | --- |
+| **1 — Institutional Mapping** | historical baseline; no retroactive renumbering |
+| **2 — Recovery/Reconciliation/Documentation** | active: certify or explicitly defer all material alerts and current-state gaps |
+| **3 — Executable Institutional Core** | blocked: import only accepted provider/license/domain identities and build bounded API/MCP/runtime contracts |
+| **4 — Federated Ecosystem Activation** | certify adapters and cross-platform identity/entitlement/event flows without provider/brand identity collapse |
+| **5 — Revenue & Market Activation** | no monetized lane may rely on unresolved license, payment, affiliate, ad-provider or renewal state |
+| **6 — Licensing, IP & Developer Economy** | require current license/rights/API terms, developer scopes, metering and deprecation records |
+| **7 — Physical/Phygital/Regional Expansion** | propagate domain/device/provider continuity into MM Suites, kiosks, AdLuxe Places and regional operations |
+| **8 — Holdings/Capital/Portfolio Scale** | use current custody/economic evidence; source registries remain distinct from current asset certification |
+| **9 — Advanced CHLOM/Interoperability** | provider/Agent API/MCP opportunities remain research until threat-model, recovery and authority gates pass |
+| **10 — Generational Continuity** | preserve registrar, vendor, source-package, credential-rotation, export, restore and provider-exit evidence |
+
+## Reconciliation cycle
+
+Every material watch update follows:
+
+```text
+new alert/evidence
+→ update stable watch record
+→ attach source/evidence state
+→ determine Phase 2.99 gate impact
+→ update GitHub #99 execution item
+→ update #100 phase/dependency board if roadmap impact changed
+→ update affected platform/provider/THIVEBASE record
+→ re-evaluate Phases 3–10
+→ record closure evidence or explicit unresolved/deferral state
+```
+
+No closed warning is reopened from stale evidence. No open warning is closed from assumption. Phase 3 remains blocked until the canonical hard-exit evaluation passes.
+
+## Latest watch run — 2026-08-19 19:39 UTC
+
+The latest live THIVEBASE run created a fresh database health snapshot and confirmed the CrownThrive Supabase project remains `ACTIVE_HEALTHY`. `public.thivebase_health_snapshot()` returned `database_ok=true`, `blocking_gates=9`, `open_gates=46`, `integration_services=14` and `overall_state=ACTION_NEEDED`. The four additional open gates relative to the earlier 42-open snapshot align with the newly formalized Reward Loyalty/CrownRewards v5 transition controls and are treated as control-surface expansion rather than a database outage unless contradictory evidence appears.
+
+Measured capacity remains non-blocking: PostgreSQL database size is approximately 12.6 MB against the current Free-plan 500 MB per-project quota, or about 2.5% (`GREEN`); the connected Storage schema currently has no buckets or stored objects; and Collab Portal has consumed 19 of its governed 20,000-request monthly budget, approximately 0.1% (`GREEN`). CrownThrive IO has 36 August requests recorded in the institutional ledger, but its monthly provider ceiling remains unset, so its percentage is `UNKNOWN`. Egress, MAU, Edge Function and Realtime billing-period consumption also remain `UNKNOWN` where authoritative connected usage telemetry is unavailable.
+
+No failed `pg_cron` execution was found in the last 24 hours. Supabase Security Advisor returned zero current findings. Performance Advisor reports only two INFO-level unused-index notices for integration-control helper indexes; those notices do not currently constitute a capacity or availability escalation.
+
+### Material provider and engine deltas
+
+- **Reward Loyalty / CrownRewards:** the latest documented Reward Loyalty 5.x baseline is now v5.27.0 dated 2026-08-14. The v5.27 line refreshes platform libraries and reports no open security advisories in those dependencies; v5.24 removed Laravel Boost developer tooling from production packages. PHP 8.4.1\+ remains the runtime floor. The current My CrownRewards public surface is reachable, but that does **not** prove v5 is deployed. Preserve the v4 production boundary until backup, staging migration, compatibility, customization and integration evidence proves otherwise. The v5 REST API remains the session-token client surface; the v5 Agent API remains the machine-to-machine `X-Agent-Key` surface with role/scopes, OpenAPI, audit logging and tool discovery including MCP-format output. CrownRewards REST/Agent API/MCP writes remain closed until upgrade, least-privilege credentials, bounded rate/idempotency/reconciliation and read-certification gates pass.
+- **Collab Portal:** dedicated Projects and Billing webhook receiver paths are now configured and the Supabase receivers are active with custom sender-token checks, bounded payload/event allowlists, receipt hashing and replay/idempotency controls. No real provider delivery has yet been observed on those paths, so sender authenticity, provider retry behavior and failure/dead-letter behavior remain uncertified. `CT-P299-GATE-006` therefore remains `not_met` at 6/7 predicates.
+- **66biolinks procurement:** current acquisition pricing is channel-specific rather than one universal baseline. AltumCode direct remains $$49 Regular / $$399 Extended, while the current CodeCanyon listing shows $$59 Regular / $$799 Extended. Neither current price may overwrite CrownThrive's historical purchase cost.
+- **MagicAds / AdLuxe Studio:** the current CodeCanyon page again shows a $$35 Regular sale against the displayed $$59 regular baseline; Extended remains \$199. This is marketplace-price evidence only and does not change the existing license-compliance gate for commercial SaaS use.
+
+### Persistent action state, no new regression
+
+Partnero/Crown Affiliates credential and webhook-signing-secret binding remain blocked; API/MCP and visitor/signup/transaction certification remain open. Stripe institutional restricted-key/signing-secret continuity remains blocked even though the connected CrownThrive Stripe account is reachable; two legacy broad-event live webhook surfaces remain an open minimization/ownership/retirement review item. Adserver.Online account authentication, plan limits and production API entitlement remain unverified; AdLuxe provider writes remain closed. CrownThrive IO read health continues successfully, while its monthly ceiling and scheduled probe budget policy remain open.
+
+This run produced a new material `WATCH` because the Reward Loyalty release baseline, Collab Portal receiver state and current engine acquisition-pricing evidence changed. It did not produce a new `FAILURE` or `ACTION NEEDED` notification because no new provider outage or material regression was observed and the pre-existing action state had already been reported.
+
+## Latest watch run — 2026-08-19 20:50 UTC
+
+A fresh required `public.thivebase_health_snapshot()` call created live database activity and returned `database_ok=true`, `overall_state=ACTION_NEEDED`, **15 registered integration services, 11 blocking gates and 51 open gates**. This is a material control-plane expansion from the prior 14 services / 9 blocking / 46 open snapshot. The CrownThrive Supabase project itself remains `ACTIVE_HEALTHY`; the increased blocker count is not a database outage.
+
+No failed `pg_cron` run was found in the last 24 hours across 18 recorded executions. Supabase Security Advisor remains clear with zero findings. Performance Advisor still reports only two INFO-level unused-index notices and no material performance warning.
+
+Measured capacity remains `GREEN`: the database is approximately 12 MB, about 2.5% of the 500 MB Free-plan database allowance; Collab Portal is 19/20,000 governed requests (0.10%); Storage currently contains no objects. CrownThrive IO has 37 August governed requests, but its provider monthly ceiling is still unset, so monthly utilization remains `UNKNOWN`. Provider-side egress, MAU, Edge Function and Realtime billing-period consumption remain `UNKNOWN` where authoritative telemetry is unavailable.
+
+### New action-needed control — ThriveTools SEO
+
+`thrivetools_seo` is now registered as the fifteenth integration-control service, and `thrivetools-seo-api-control` v1 is ACTIVE with JWT verification. This new lane accounts for two newly blocking controls and two additional open controls:
+
+- `credential_vault_binding` — **BLOCKED** until the restricted provider credential is bound through an approved non-logging Vault path and continuity is independently verified;
+- `authenticated_read` — **BLOCKED** until Vault/continuity certification passes;
+- `mcp_adapter` — `open`; read-only MCP projection remains downstream of authenticated endpoint/schema certification;
+- `monthly_request_budget_ceiling` — `open`; no authoritative provider ceiling is yet recorded.
+
+Provider reads and MCP use remain fail-closed. This maps primarily to `CT-P299-GATE-001` and `CT-P299-GATE-003`, and it does not authorize Phase 3 activation.
+
+### Collab Portal hardening delta
+
+The canonical Collab Portal certification remains 6/7, with `webhook_sender_delivery_integrity` blocked. The split Projects and Billing receivers remain ACTIVE, but the legacy `collab-portal-webhook-receiver` v1 is also still ACTIVE without sender authentication. New explicit debt now tracks legacy receiver retirement/hardening, strict event/project-UID envelope behavior and pre-read request-body bounding. Event-driven synchronization stays closed until real provider delivery and sender/delivery integrity are proven.
+
+### Engine and vendor deltas
+
+- **Reward Loyalty / My CrownRewards:** official 5.x evidence now confirms v5.27.0 dated 2026-08-14. My CrownRewards is publicly reachable, but no production evidence proves the self-hosted engine beneath it has been upgraded from v4 to v5. Preserve v4 production until backup/staging/migration/read-certification gates pass. REST remains the session-token client surface; Agent API remains the scoped `X-Agent-Key` machine surface with OpenAPI, audit logging and tool discovery. Reward Loyalty writes/API/MCP remain closed.
+- **MagicAds → AdLuxe Studio:** the current vendor changelog now includes v2.0 dated 2026-08-17 while the item metadata still shows an older Last Update field. Treat this as a vendor-page metadata inconsistency and stage/diff the v2.0 package rather than inferring production deployment. The existing Regular-license monetization gate remains open.
+- **TableTrack → ThriveKiln:** the main TableTrack item now reports Last Update 2026-08-13, newer than the previously tracked 2026-08-06 baseline. Archive/download and diff the current package before the 2026-09-13 support cutoff; exact Aug. 13 code changes remain `UNKNOWN` until package/changelog evidence is inspected.
+
+### Persistent P0 gates
+
+Partnero/Crown Affiliates remains blocked on API-key and webhook-signing-secret continuity plus live read/MCP/tracking certification. Stripe remains blocked on restricted server credential and webhook-signing-secret continuity; legacy broad-event webhook review remains open. Adserver.Online account authentication/plan/API entitlement remains unverified. AdLuxe Network writes remain closed. CrownThrive IO remains read-verified but retains open monthly-ceiling and scheduled-probe budget gates. GitHub's governed main perimeter remains passed with nine integration-control gates passed and no open/blocked gate in that service.
+
+No authoritative registrar evidence was obtained to close the existing domain renewal queue. Public reachability does not substitute for registrar/custody/renewal proof, so the August 28, August 30 and September renewal verification items remain open.
+
+This run generated a new `ACTION NEEDED — THIVEBASE` notification because the integration-control blocker count materially increased through the newly registered ThriveTools SEO lane. The sanitized Gmail notice was sent to the institutional tracking address and labeled `CrownThrive/ACTION NEEDED`. GitHub issues #98, #99 and #100 were updated with the same current-state and downstream-phase impact. No daily `SUCCESS` email was sent because an action-needed state exists.
+
+## Phase 2.99 integration-hardening patch — 2026-08-19 21:20 UTC
+
+This bounded patch implements the founder-directed operational changes without promoting Phase 3 or silently changing production engine versions.
+
+### ThriveTools SEO — CrownThrive IO control pattern applied
+
+The live integration-control state is now ahead of the earlier action-needed snapshot. ThriveTools SEO has a verified primary \+ recovery Vault continuity record, authenticated read certification across eight currently proven API families, a JWT-protected read-only `thrivetools-seo-api-control` runtime, and a read-only MCP projection through `crownthrive-api-control` v3. Provider writes remain disabled. `monthly_request_budget_ceiling` and scheduled-probe budget policy are now `passed` under the founder-confirmed unlimited-call policy; request counts remain telemetry and abuse-detection evidence rather than an exhaustion ceiling.
+
+The remaining SEO API work is deliberately narrow: exact endpoint/path reconciliation for team-members, payments and logs. Those families remain disabled because provisional paths did not return certified API JSON. No naming similarity or provider UI hint can promote them.
+
+### Collab Portal — split receiver hardening complete; live-delivery gate still closed
+
+The legacy generic `collab-portal-webhook-receiver` is retired as an HTTP 410 non-dispatching stub. The provider-configured Projects and Billing receivers are now v2 and enforce:
+
+- sender-token verification using a Vault-held verifier reference rather than a verifier fingerprint embedded in source;
+- `POST` \+ JSON-only handling;
+- streaming **pre-read** 64 KiB request-body bounding rather than buffering first and checking later;
+- strict event allowlists;
+- mandatory pinned institutional project identity for Project events;
+- SHA-256 receipt evidence \+ replay/idempotency keys;
+- no raw webhook-payload persistence.
+
+Accordingly, `legacy_webhook_receiver_retirement`, `webhook_envelope_strictness` and `webhook_request_body_bounding` now pass. A founder-authorized reversible Project Updated certification probe completed provider read → normalized bounded write → readback with HTTP 200 and restored the canonical project state. However, no callback reached the configured hardened Projects receiver. Therefore `webhook_sender_delivery_integrity` remains **blocked**, the canonical Collab result remains **6/7**, and event-driven synchronization remains disabled. Static security hardening is not substituted for real provider-delivery evidence.
+
+### CrownRewards / My CrownRewards — v4 preserved, v5.27.0 prepared only
+
+The current CrownThrive engine boundary remains explicit: **Reward Loyalty is the self-hosted engine beneath CrownRewards / My CrownRewards and is separate from Partnero / Crown Affiliates and AdLuxe Network.** My CrownRewards remains publicly reachable, but current production engine state remains `v4`; `production_v5_deployed=false`.
+
+The latest vendor target reference is Reward Loyalty **v5.27.0 (2026-08-14)** with PHP **8.4.1\+** as the documented runtime floor. The Phase 2.99 control plane now registers the v5 REST session-token login surfaces and Agent API `/health`, OpenAPI and MCP-format tool-discovery surfaces, all disabled. A JWT-protected `reward-loyalty-api-control` readiness adapter is deployed in preparation-only mode and cannot dispatch provider API calls or writes.
+
+Activation remains gated by backup, separate staging migration, host/PHP-extension compatibility, production-v5 deployment evidence, least-privilege Agent API key, rate-limit/idempotency/replay controls, audit/reconciliation and bounded read certification. The v4 production installation stays intact until those gates pass.
+
+## Latest heartbeat — 2026-08-19 22:12 UTC
+
+A fresh live `public.thivebase_health_snapshot()` created database activity and returned `database_ok=true`, `overall_state=ACTION_NEEDED`, **15 registered integration services, 11 blocking gates and 46 open gates**. The CrownThrive Supabase project remains `ACTIVE_HEALTHY`. Compared with the prior 20:50 UTC baseline of 11 blocking / 51 open, the blocker count is unchanged while five open gates have moved to passed.
+
+Those five closures are bounded control-plane hardening, not provider-production activation: Partnero now passes control-plane request-body bounding, provider-response body bounding and webhook request-body bounding; Reward Loyalty now passes explicit control-plane admin authorization and request-body bounding. Partnero still has two blocked credential/signing-secret gates plus six open API/MCP/tracking/audit gates. Reward Loyalty still has `v5_production_deployment` blocked plus six open v5 migration/API/read/rate-reconciliation gates. All provider write gates remain disabled.
+
+Current integration-control totals are **11 blocked / 46 open / 78 passed / 10 closed** across 145 gates. The P0 read state remains bounded: CrownThrive IO and ThriveTools SEO are `read_verified`; Collab Portal remains `read_verified` but 6/7 fail-closed on live sender/delivery integrity; Partnero is configured but credential-blocked; Reward Loyalty remains documented/preparation-only; Adserver.Online remains documented/unverified; Stripe remains configured with credential continuity unresolved. `crownthrive-api-control` remains ACTIVE v3 with **32 registered / 20 enabled MCP tools**, all 20 enabled tools D0 and non-mutating.
+
+Operational health remains stable. `pg_cron` recorded 21 executions in the prior 24 hours with zero non-success statuses. Security Advisor has zero findings. Performance Advisor has two INFO-level unused-index notices only. Database size is approximately 12 MB, still roughly 2.5% of the 500 MB Free-plan database threshold used by this watch; Storage contains zero objects. Collab Portal remains 19 / 20,000 governed requests. CrownThrive IO is at 39 August requests and ThriveTools SEO at 13; their founder-adopted unlimited-call semantics mean those counters are telemetry rather than exhaustion ceilings. Egress, MAU, Edge Function and Realtime billing-period utilization remain `UNKNOWN` because authoritative connected billing telemetry is not available.
+
+The latest successful audited provider reads remain CrownThrive IO HTTP 200 at 22:08 UTC, ThriveTools SEO HTTP 200 at 21:41 UTC and Collab Portal bounded readback HTTP 200 at 19:41 UTC. No new external provider request was required by this heartbeat beyond the already-recorded read-only activity. Phase 2.99 remains open: the canonical hard-exit ledger is still **2 PASS / 6 blocking categories**, including GATE-001, GATE-002, GATE-003, GATE-006, GATE-007 and GATE-008. This heartbeat therefore reduces integration hardening debt but does not open Phase 3.
+
+## Credential continuity audit — 2026-08-19 22:25 UTC
+
+`ct.subagent.credential-continuity` completed a sanitized P0 continuity pass against live `integration_control`, active Supabase Edge Functions and Vault **reference names only**. No raw secret value or credential fingerprint was read into the institutional record.
+
+The credential continuity registry now carries **19 classified records**: 9 verified primary Vault references, 5 verified recovery references, 5 `blocked_missing_secret` records, 4 `provider_managed_only` records and 1 future `pending` Reward Loyalty v5 Agent API credential. A direct registry-to-Vault-name reconciliation returned **19/19 presence states matching** with zero stale presence mismatches. Current missing-secret blockers remain Adserver.Online API access, Partnero API access, Partnero webhook signing, Stripe server API access and Stripe webhook signing. Partnero, Stripe and Adserver continue under existing fail-closed recovery ownership/deferral controls; no provider credential was rotated or reconstructed.
+
+Provider-managed continuity is now explicitly classified for THIVEBASE/Supabase runtime identity, `crownthrive-api-control` Supabase runtime auth, CrownThrive ID/Supabase Auth signing and the GitHub canonical-main perimeter. Reward Loyalty's future v5 Agent API key is registered as `pending`, not missing-current-production state: CrownRewards remains on v4 production and the key must not be provisioned until the existing v5 deployment/read/least-privilege gates permit it.
+
+Runtime-consumer reconciliation confirmed the registered current Edge Function consumers are ACTIVE; future MCP/provider adapters remain marked future. A deterministic D1 registry drift was repaired for `crownthrive-api-control`: its service metadata now matches the ACTIVE v3 runtime. Two secret-source policy deltas were also opened for security review rather than hidden: Stripe's institutional webhook runtime permits an environment-variable source before Vault and is therefore **blocked** on `runtime_secret_source_policy` while Vault aliases remain unbound; Collab Portal PM permits environment-before-Vault source precedence and is **open** on `credential_source_precedence_policy` even though its Vault bindings and authenticated reads remain verified.
+
+The added control coverage changes the live integration-control totals to **12 blocked / 47 open / 79 passed / 10 closed**. This is not a new database/provider outage; it is explicit registration of previously unmodeled credential-source risk. Phase 2.99 remains current. `CT-P299-GATE-007` remains open, and `CT-P299-GATE-008` remains unjustified until upstream hard-exit requirements are actually satisfied.
+
+**Agent A handoff:** keep Partnero, Stripe and Adserver provider writes fail-closed; route approved secure Vault binding/recovery work through the existing accountable owners; preserve Reward Loyalty v4 and defer its v5 key until the v5 gates permit provisioning; carry these deltas through #98/#99/#100 and downstream Phase 3–10 reconciliation.
+
+**Agent S handoff:** verify the effective secret source for Stripe institutional webhook and Collab PM without exposing values; reconcile runtime source precedence to the active Vault-ingestion policy; do not rotate credentials merely to satisfy the control; re-run continuity and runtime-readback checks after any approved code/config remediation.
+
+## Vendor-engine evidence reconciliation — 2026-08-19 22:26 UTC
+
+`ct.subagent.vendor-engine-watch` completed a provider-source pass without purchasing, accepting terms, deploying upgrades, changing production versions or creating sovereign votes. The pass preserves marketplace/channel evidence separately from CrownThrive historical purchase/license evidence and preserves provider-page contradictions instead of normalizing them into a false version.
+
+### Provider-confirmed target/reference state
+
+- **66biolinks / CrownThrive IO:** AltumCode's changelog and download surface explicitly identify **v70.0.0, released 2026-08-07**. This confirms the target/reference version only. CrownThrive installed state is not changed by this evidence. AltumCode also states future updates continue after support expires, so support status remains a separate control from update entitlement and software operation.
+- **Streamit Laravel / Melanated TV:** Iqonic's current vendor documentation identifies **v2.2.0, released 2026-06-09**, and documents PHP 8.2 compatibility. Treat v2.2.0 as the current target/reference only; installed/customized state remains evidence-controlled.
+- **QuiziX / ThriveArena:** the current CodeCanyon changelog identifies **v3.0.4, released 2026-04-24**. Treat v3.0.4 as target/reference only; production/customized version remains unresolved until CrownThrive evidence establishes it.
+- **Reward Loyalty / CrownRewards / My CrownRewards:** preserve the designated-current same-day provider evidence that established **v5.27.0 dated 2026-08-14** as target/reference. Current public search/cache surfaces lag behind that evidence, so the crawler lag does not downgrade the governed target. Production remains **v4**. Reward Loyalty remains separate from Partnero/Crown Affiliates and AdLuxe. v5 REST, Agent API and MCP-format tooling stay closed pending the existing migration/read/least-privilege/rate/idempotency/reconciliation gates.
+
+### Provider-surface contradictions requiring package/account proof
+
+- **66analytics / CrownLytics:** the currently retrievable AltumCode changelog and download page explicitly name **v54.0.0 dated 2026-06-26**, but the AltumCode product page reports an additional update on **2026-08-07** and 77 total updates without exposing an explicit version. The prior `v55` watch record therefore cannot be freshly reproduced from public provider evidence. Do not call v55 installed or newly authoritative. Resolve by authenticated package/account evidence, then stage → backup → diff → compatibility/API regression test.
+- **66uptime / Ecosystem Status:** AltumCode's explicit changelog/download surface identifies **v57.0.0 dated 2026-06-26**, while the product page reports another update on **2026-08-07** without an explicit version. Exact latest version remains `UNKNOWN` pending authenticated package/changelog reconciliation. Planned acquisition remains closed.
+- **MagicAds / AdLuxe Studio:** prior same-day vendor evidence recorded **v2.0 dated 2026-08-17**, while currently retrievable CodeCanyon content still exposes **v1.9 / July** metadata. Preserve both observations; use the authenticated current package as the resolving artifact. The Regular-license monetization gate remains open regardless of version.
+- **TableTrack / ThriveKiln:** prior same-day provider evidence observed a **2026-08-13** update, while currently retrievable CodeCanyon metadata shows **2026-08-06** for the main app/bundle. Preserve both observations and resolve with authenticated current package/changelog evidence before the **2026-09-13** support-source cutoff.
+
+### Exact next actions
+
+1. **CrownLytics / 66analytics:** retrieve the authenticated latest package from the licensed provider account; record package version/hash; stage separately; database/files backup; diff against CrownThrive customizations; API regression test; do not promote until compatibility passes.
+2. **Ecosystem Status / 66uptime:** do not purchase while the provider surfaces disagree. Reconcile exact version, PHP requirements and license channel first.
+3. **ThriveKiln / TableTrack:** archive the newest authenticated TableTrack \+ Universal Modules packages before 2026-09-13, record exact versions/hashes, and diff before any support-renewal decision.
+4. **AdLuxe Studio / MagicAds:** obtain the authenticated current package/changelog and reconcile Regular-versus-Extended commercial rights before any SaaS monetization or provider write enablement.
+5. **Melanated TV / Streamit:** record v2.2.0 as target/reference, preserve current installed state separately, and stage/diff only after license and customization inventory are captured.
+6. **ThriveArena / QuiziX:** record v3.0.4 as target/reference, preserve installed/custom state separately, and prepare a compatibility/diff packet before the 2026-09-28 support-source date.
+7. **CrownRewards / Reward Loyalty:** keep v4 production untouched; v5.27.0 remains reference-only; no v5 credential provisioning or API/MCP write activation before the existing backup/staging/runtime/security gates pass.
+
+**Agent A handoff:** update work queues for the four provider-version contradictions, prioritize TableTrack before the 2026-09-13 support cutoff, and keep all production/provider writes closed. No roadmap advancement occurred; Phase 2.99 and GATE-001/GATE-003 remain active.
+
+**Agent B handoff:** independently verify authenticated package/version evidence before accepting any contradiction as resolved; reject installed-version claims sourced only from marketplace metadata or target releases; preserve historical purchase cost independently from current channel pricing and preserve support/license/update/operation as separate states.
+
+## THIVEBASE Monthly Heartbeat
+
+The recurring **THIVEBASE Monthly Heartbeat** is now the ecosystem-wide API/infrastructure certification cycle. It runs on the first day of each month in the local morning window and must begin by calling `public.thivebase_health_snapshot()` against the connected CrownThrive Supabase project so every run creates actual database activity.
+
+Its machine policy is `developers/manifests/thivebase-operational-automation.v1.json`, validated by `scripts/validate_thivebase_operational_automation.py`. `scripts/build_thivebase_heartbeat_plan.py` renders the deterministic sanitized execution plan. Both Documentation Governance and the required `CrownThrive governed merge gate` execute the validator.
+
+The heartbeat checks project `ACTIVE_HEALTHY` state, cron failures, Security Advisor, material Performance Advisor warnings, capacity thresholds/forecasting, request-budget semantics, credential continuity, integration-control gates, registered P0 API/MCP health, webhook state, vendor/engine version drift, support/renewal queues and GitHub control-plane state. Default execution is read-only and fail-closed. Unavailable provider metrics remain `UNKNOWN`, never zero.
+
+### Expanded institutional-agent topology
+
+The operational overlay now records a fixed **five-agent sovereign voter pool** plus scheduled non-voting specialists and embedded non-voting subagents. Scheduler capacity does not alter quorum.
+
+**Sovereign voters:** A/B/C/D/S only.
+
+**Scheduled non-voting specialists:**
+
+- Agent E — API/MCP integration and heartbeat execution;
+- Agent F — source/articleization and GATE-002 execution support;
+- Agent G — domain/engine/vendor certification and GATE-001 execution support;
+- Agent H — webhook/provider-delivery certification and GATE-006 execution support.
+
+**Embedded non-voting subagents:**
+
+- `ct.subagent.integration-heartbeat` — sanitized health snapshots, registered D0/D1 read checks, gate/budget comparison, cron/advisor/runtime inspection and evidence-backed watch updates;
+- `ct.subagent.credential-continuity` — Vault-reference presence and sanitized continuity checks, missing-reference detection and only founder-explicit bounded alias repair with audit;
+- `ct.subagent.vendor-engine-watch` — official vendor changelog/version/price/license tracking, current-target-version recording, support/renewal monitoring and stage/diff/backup task creation;
+- Agent I / `ct.subagent.continuity-recovery` — GATE-007, restricted-source boundaries, export/restore/provider-exit and recovery evidence;
+- Agent J / `ct.subagent.phase3-snapshot-packet` — GATE-008 exact commit/schema/infrastructure/source snapshot and Phase 3 packet preparation only;
+- Agent K / `ct.subagent.roadmap-transition` — mandatory downstream Phase 3–10 dependency/gate/test/risk propagation after material changes.
+
+They cannot create sovereign votes, expose secrets or credential fingerprints, rotate provider credentials autonomously, enable provider writes, alter rights/money/legal authority, claim an unverified version is deployed, waive a hard gate or convert `UNKNOWN` into `PASS`. Agent A owns dispatch/reconciliation, B evidence review, C bounded scripts/docs implementation, D independent gatekeeping and S security/resilience review.
+
+The reusable institutional source templates, archive/version model and licensing/CHLOM pallet boundaries are now documented in the [Agent Factory and Template Library](/automation/agent-factory-and-template-library), [Agent Definition Schema and Source Templates](/automation/agent-definition-schema-and-source-templates), [Agent Version Archive and Continuity](/automation/agent-version-archive-and-continuity) and [Agent Template Licensing and CHLOM Pallets](/automation/agent-template-licensing-and-chlom-pallets). The detailed major-patch record is [Phase 2.99 — Agent Factory and Specialist Expansion](/changelog/phase-2-99-agent-factory-and-specialist-expansion); this control center remains the current operational summary.
+
+### Software-engine version tracker rule
+
+For CodeCanyon and other third-party engines, the **most recent provider-published release becomes the default target/reference version until installed-version evidence is recovered**. Target version is not deployed version. Historical purchase price is never overwritten by current marketplace price, marketplace channels remain distinct, and support expiry is not treated as software deactivation unless vendor terms explicitly establish that effect. Every upgrade follows: stage → backup → diff → compatibility/test → reconcile → governed promotion.
