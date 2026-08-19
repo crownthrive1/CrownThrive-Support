@@ -1,0 +1,111 @@
+{
+  "manifest_version": "1.0.2",
+  "manifest_id": "ct.manifest.agent-template-library.v1",
+  "phase": "2.99",
+  "roadmap_generation": "ten_phase_v1",
+  "governance_decision": "CT-ADR-GOV-011",
+  "updated_on": "2026-08-19",
+  "sovereign_voters": [
+    "ct.relay.agent-a",
+    "ct.relay.agent-b",
+    "ct.relay.agent-c",
+    "ct.relay.agent-d",
+    "ct.relay.agent-s"
+  ],
+  "required_automatic_merge_approvals": 4,
+  "mandatory_gatekeeper": "ct.relay.agent-d",
+  "scheduled_specialists": [
+    {"agent_id":"ct.specialist.agent-e","name":"Agent E — API/MCP Integration Specialist","vote_eligible":false,"primary_scope":"api_mcp_conformance"},
+    {"agent_id":"ct.specialist.agent-f","name":"Agent F — Source & Articleization Specialist","vote_eligible":false,"primary_scope":"source_articleization"},
+    {"agent_id":"ct.specialist.agent-g","name":"Agent G — Domain/Engine/Vendor Certifier","vote_eligible":false,"primary_scope":"domain_engine_vendor_certification"},
+    {"agent_id":"ct.specialist.agent-h","name":"Agent H — Webhook & Delivery Certifier","vote_eligible":false,"primary_scope":"webhook_provider_delivery_certification"}
+  ],
+  "embedded_specialists": [
+    {"agent_id":"ct.subagent.continuity-recovery","name":"Agent I — Continuity & Recovery","vote_eligible":false,"supports_gates":["CT-P299-GATE-007"]},
+    {"agent_id":"ct.subagent.phase3-snapshot-packet","name":"Agent J — Phase 3 Snapshot & Entry Packet","vote_eligible":false,"supports_gates":["CT-P299-GATE-008"]},
+    {"agent_id":"ct.subagent.roadmap-transition","name":"Agent K — Roadmap Transition & Downstream Reconciliation","vote_eligible":false,"supports_gates":[]}
+  ],
+  "reusable_helpers": [
+    {"agent_id":"ct.subagent.integration-heartbeat","vote_eligible":false},
+    {"agent_id":"ct.subagent.credential-continuity","vote_eligible":false},
+    {"agent_id":"ct.subagent.vendor-engine-watch","vote_eligible":false},
+    {"agent_id":"ct.subagent.reconciliation-tag-sentinel","name":"Agent L — Reconciliation Tag Sentinel","role_type":"embedded_subagent","vote_eligible":false,"manifest":"developers/agents/reconciliation/agent-l-tag-sentinel.v1.yaml"},
+    {"agent_id":"ct.subagent.permissioned-source-reconciler","name":"Agent M — Permissioned Source Reconciler","role_type":"embedded_subagent","vote_eligible":false,"manifest":"developers/agents/reconciliation/agent-m-permissioned-source-reconciler.v1.yaml"},
+    {"agent_id":"ct.subagent.reconciliation-proof-verifier","name":"Agent N — Proof, Drift & Contradiction Verifier","role_type":"embedded_subagent","vote_eligible":false,"manifest":"developers/agents/reconciliation/agent-n-proof-drift-verifier.v1.yaml"},
+    {"agent_id":"ct.subagent.draft-reconciliation-integrator","name":"Agent O — Draft Reconciliation Integrator","role_type":"embedded_subagent","vote_eligible":false,"manifest":"developers/agents/reconciliation/agent-o-draft-reconciliation-integrator.v1.yaml"}
+  ],
+  "source_templates": [
+    "developers/templates/agent-role-template.v1.yaml",
+    "developers/templates/subagent-role-template.v1.yaml",
+    "developers/templates/agent-pack-manifest-template.v1.json",
+    "developers/templates/chlom-capability-pallet-template.v1.yaml",
+    "developers/templates/chlom-runtime-adapter-template.v1.yaml",
+    "developers/templates/third-party-attribution-template.v1.yaml"
+  ],
+  "documentation": {
+    "agent_registry": "automation/agent-registry.mdx",
+    "relay": "automation/institutional-hourly-agent-relay.mdx",
+    "permissions": "automation/permissions-and-approval-gates.mdx",
+    "factory": "automation/control-plane-agent-factory-and-work-queues.mdx",
+    "templates": "automation/agent-templates-pallets-and-commercialization.mdx",
+    "lineage_archive": "automation/agent-lineage-version-archive.mdx",
+    "tag_reconciliation": "automation/reconciliation-tag-subagents.mdx",
+    "changelog_index": "changelog/index.mdx",
+    "major_change": "changelog/phase-2-99-agent-template-pallet-institutionalization.mdx",
+    "chlom_pallet_map": "chlom/component-pallet-service-implementation-map.mdx"
+  },
+  "default_invariants": {
+    "specialists_and_subagents_non_voting": true,
+    "phase_advance_by_template": false,
+    "production_write_default": false,
+    "self_approval_prohibited": true,
+    "unknown_to_pass_without_evidence_prohibited": true,
+    "secret_or_fingerprint_output_prohibited": true,
+    "archive_prior_versions": true,
+    "changelog_required_for_material_change": true
+  },
+  "reconciliation_tag_system": {
+    "manifest": "developers/manifests/reconciliation-tag-system.v1.json",
+    "draft_index": "developers/manifests/draft-reconciliation-index.v1.json",
+    "scanner": "scripts/scan_reconciliation_tags.py",
+    "workflow": ".github/workflows/reconciliation-tag-scan.yml",
+    "supabase_table": "integration_control.reconciliation_tags",
+    "pass_remains_drift_watched": true,
+    "deferral_can_be_pass": false,
+    "tags_create_authority": false
+  },
+  "chlom_template_families": {
+    "capability_pallet": {
+      "template": "developers/templates/chlom-capability-pallet-template.v1.yaml",
+      "role": "cloud_or_implementation_neutral_governed_capability_package",
+      "may_imply_blockchain_deployment": false
+    },
+    "runtime_adapter": {
+      "template": "developers/templates/chlom-runtime-adapter-template.v1.yaml",
+      "role": "future_decentralized_cryptographic_or_protocol_runtime_adapter",
+      "earliest_activation_phase": 9,
+      "production_deployed_by_template": false
+    }
+  },
+  "commercialization": {
+    "candidate": true,
+    "preferred_initial_model": "one_time_digital_license_via_hosted_stripe_checkout",
+    "stripe_product_id": null,
+    "stripe_price_id": null,
+    "checkout_enabled": false,
+    "price_status": "not_authorized",
+    "package_license_status": "not_adopted",
+    "internal_private_authority_sold": false
+  },
+  "third_party_rights": {
+    "third_party_code_imported_by_this_patch": false,
+    "attribution_intake_template_required": true,
+    "exact_upstream_license_verification_required_before_distribution": true,
+    "notice_and_source_obligations_must_be_preserved": true,
+    "trademark_constraints_must_be_preserved": true
+  },
+  "phase_state": {
+    "current": "2.99",
+    "phase_3_entry": "blocked_pending_phase_2_99_hard_exit"
+  }
+}
