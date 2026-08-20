@@ -10,7 +10,7 @@ keywords: ["Phase 2.99", "Workstream 3A", "many-to-many", "S100 engines", "S100 
 
 ## Purpose
 
-This register is the deterministic **stable identity → S103 source → S100 portfolio → S100 engine/service → S100 domain** relationship layer for Workstream 3A. Tranche 1 established the pattern across CrownApps and the media federation. Tranche 2 expands it across current operating-spine, support, beauty/wellness, analytics, messaging and growth/distribution identities.
+This register is the deterministic **stable identity → S103 source → S100 portfolio → S100 engine/service → S100 domain** relationship layer for Workstream 3A. Tranche 1 established the pattern across CrownApps and the media federation. Tranche 2 expanded it across current operating-spine, support, beauty/wellness, analytics, messaging and growth/distribution identities. **Tranche 3** now resolves the ThriveTools SEO and ThriveTools OPT child identities from direct API/application evidence without allowing either child engine or API to become an inherited root-ThriveTools capability.
 
 The edges are **dated source relationships only**. They do not certify provider accounts, current license entitlement, installed versions, repositories, deployments, APIs, exports, registrar custody, DNS, TLS, HTTP health, public availability, rights, legal authority, commerce activation or revenue state.
 
@@ -22,18 +22,21 @@ This tranche is limited to already accepted stable identities and exact source-r
 
 ```yaml
 workstream: phase_2_99_workstream_3a
-cohort: engine_domain_identity_edges_tranche_2
+cohort: engine_domain_identity_edges_tranche_3
 baseline_commit: 461fb7085510c29b4a605bdb1996903b534a7996
-resolved_identity_records: 25
-blocked_relationship_records: 3
-engine_source_rows_referenced: 30
+resolved_identity_records: 27
+blocked_relationship_records: 0
+historical_resolved_relationship_records: 3
+engine_source_rows_referenced: 32
 domain_source_rows_referenced: 24
-edge_state: source_relationship_only
+edge_state: source_relationship_plus_governed_child_identity
 current_integration_certification: incomplete
 documentation_impact: docs_updated
 phase_2_99_hard_exit: not_met
-phase_3_entry: blocked_pending_phase_2_99_hard_exit
+phase_3_entry: blocked_pending_phase_2_99_hard_exit_and_full_docs_reconciliation
 ```
+
+The former Tranche-2 checkpoint remains preserved in history as **25 resolved identities / 3 then-blocked relationships / 30 engine rows / 24 S100 domain rows**. Tranche 3 does not erase that evidence; it supersedes the current projection after founder/runtime-source reconciliation resolved MVP Roku lineage plus ThriveTools SEO/OPT child identity while leaving provider/runtime certification independent.
 
 ## Evidence baseline and assumptions
 
@@ -50,7 +53,7 @@ The controlling evidence for this register is the accepted S103 74-row recovery/
 - an S100 source `Active`, `Live`, `Rebuild`, `Current`, support date, license label or domain status does not prove current CrownThrive deployment or entitlement;
 - absence of an S100 engine/domain row means only that the dated S100 tables do not contain an exact row for that identity;
 - provider references in source notes, such as SuitePro or Brilliant Directories, are not forced into the 85-engine count;
-- `MVP (Roku)` remains fail-closed and receives no effective engine/domain edge until its lineage is adjudicated.
+- The historical `MVP (Roku)` edge remains preserved as pre-adjudication evidence. Founder adjudication now treats it as historical Roku/distribution lineage merged into Melanated TV; any **current** engine/domain/provider edge still requires independent evidence and is not inferred from that identity decision.
 
 ## Tranche 1 — CrownApps and media relationships
 
@@ -80,12 +83,35 @@ The controlling evidence for this register is the accepted S103 74-row recovery/
 | `ct.platform.crownthrive-support` | `S103-PF-065` | `S100-PORT-010` | `S100-ENG-043` BeDesk; `S100-ENG-044` BeDesk Livechat; `S100-ENG-045` BeDesk AI Agent | `S100-DOM-011` | dated implementation relationship; current Mintlify/ThriveSupport projection and BeDesk deployment state remain independently governed |
 | `ct.platform.locticians` | `S103-PF-011` | `S100-PORT-037` | none exact in S100 85-engine table | `S100-DOM-063`; `S100-DOM-064`; `S100-DOM-073` | source domains only; the domain note naming Brilliant Directories is not promoted into the 85-engine count or current account certification |
 | `ct.platform.thriveseat` | `S103-PF-021` | `S100-PORT-038` | `S100-ENG-031` Frezka SaaS; `S100-ENG-032` Frezka Flutter App | `S100-DOM-029` | source booking/operations stack only; current provider/account/version/API/deployment state open |
-| `ct.platform.crownlytics` | `S103-PF-042` | `S100-PORT-012` | `S100-ENG-085` 66analytics | `S100-DOM-058` | source analytics relationship only; current installed version/API/data-flow state open |
+| `ct.platform.crownlytics` | `S103-PF-042` | `S100-PORT-012` | `S100-ENG-085` 66analytics | `S100-DOM-058` | source analytics relationship only; installed version remains `UNKNOWN`; vendor target candidate `v55.0.0` (2026-08-07) is supported by the current first-party download/product surfaces, while the currently retrievable first-party changelog still exposes `v54.0.0` (2026-06-26), so source alignment remains open and API/data-flow state remains independently gated |
 | `ct.platform.crownpulse` | `S103-PF-043` | `S100-PORT-013` | `S100-ENG-005` 66socialproof | `S100-DOM-060` | source signals/social-proof relationship only; current account/deployment/API state open |
 | `ct.platform.thrivepush` | `S103-PF-044` | `S100-PORT-014` | `S100-ENG-082` 66pusher | `S100-DOM-056` | source messaging relationship only; current sender/account/API/consent/deployment state open |
 | `ct.platform.crownfluence` | `S103-PF-046` | `S100-PORT-060` | `S100-ENG-057` CollabStar | `S100-DOM-047` | source creator-campaign relationship only; provider audit, rights, disclosure, payment and deployment state open |
 | `ct.platform.crown-affiliates` | `S103-PF-048` | `S100-PORT-061` | `S100-ENG-030` Partnero | `S100-DOM-040` | shared attribution-provider source relationship; current economics, payout and account/API state remain separately versioned/verified |
 | `ct.platform.crown-ambassadors` | `S103-PF-047` | `S100-PORT-062` | `S100-ENG-030` Partnero | none exact in S100 | shared attribution-provider source relationship; distinct program identity/economics remain separate from Crown Affiliates |
+
+## Tranche 3 — ThriveTools child identities and API evidence
+
+Direct CrownThrive API/application evidence now resolves the former parent/child ambiguity without merging either child into the root `ct.platform.thrivetools` family.
+
+| Stable child identity | S100 portfolio | S100 engine/service | Direct current host evidence | Current certification boundary |
+| --- | --- | --- | --- | --- |
+| `ct.platform.thrivetools-seo` | `S100-PORT-018` | `S100-ENG-083` 66audit | `https://seo.thrivetools.io/api` and current developer/API evidence | authenticated D0 reads are separately certified; unresolved endpoint families and external MCP conformance remain gated |
+| `ct.platform.thrivetools-opt` | `S100-PORT-019` | `S100-ENG-062` Optimer | `https://optimize.thrivetools.io/api`; founder-supplied ThriveTools OPT `v4.0.0` developer interface | API key is stored in dual Supabase Vault aliases; six endpoint contracts are documented; exact HTTP verbs and authenticated D0 reads remain open; upload/delete writes are closed |
+
+The direct hosts are **current evidence references**, not additions to the historical S100 82-domain table. They therefore do not change `CT-COUNT-004` or manufacture new S100 domain rows.
+
+### Root/child invariant
+
+```text
+ct.platform.thrivetools
+├── ct.platform.thrivetools-seo
+└── ct.platform.thrivetools-opt
+```
+
+The root family retains `S100-ENG-006` 66toolkit and `S100-DOM-057` `thrivetools.io`. SEO retains `S100-ENG-083`; OPT retains `S100-ENG-062`. A child API, credential, quota, provider deployment or current state never promotes to the root family by inheritance.
+
+See [ThriveTools OPT API Adapter](/developers/thrivetools-opt-api-adapter) for the public-safe v4.0.0 endpoint contract and fail-closed adapter state.
 
 ## Shared-provider invariants
 
@@ -116,48 +142,49 @@ The shared provider does not merge affiliate and ambassador identity, eligibilit
 
 `S103-PF-065` and `S100-PORT-010` represent a multi-projection relationship. The abstract `ct.platform.thrivesupport` family receives no implementation engine/domain edge by inheritance. The dated BeDesk/domain edges are attached to `ct.platform.crownthrive-support` as an implementation-facing projection. This prevents one provider choice from becoming institutional knowledge-family identity.
 
-## Blocked relationships
+## Historical blocked relationships — preserved and resolved
+
+The prior tranche-2 blocked records remain part of institutional history. They are not deleted; each now carries a current resolution.
 
 ### MVP (Roku)
 
 ```yaml
-source_row: S103-PF-028
-source_name: MVP (Roku)
-relationship_state: unresolved_fail_closed
-candidate_portfolio_context:
-  - S100-PORT-027
-  - S100-PORT-028
-prohibited_until_adjudicated:
-  - effective_engine_edge
-  - effective_domain_edge
-  - alias_to_melanated_voices_platform
-  - alias_to_melanated_voices_tv
-  - production_or_channel_claim
+historical_state: unresolved_fail_closed
+current_resolution: merged_into_melanated_tv_lineage
+current_canonical_target: ct.platform.melanated-tv
+operational_promotion: prohibited_without_current_provider_evidence
 ```
+
+Founder adjudication resolved the source identity as historical Roku/distribution implementation merged into Melanated TV. That identity decision does not create a current Roku/provider/channel edge.
 
 ### ThriveTools SEO
 
 ```yaml
-portfolio_row: S100-PORT-018
+historical_state: parent_child_resolution_pending
+current_resolution: resolved_child_identity
+stable_id: ct.platform.thrivetools-seo
+parent_family: ct.platform.thrivetools
 engine_row: S100-ENG-083
-relationship_state: parent_child_resolution_pending
-candidate_parent: ct.platform.thrivetools
-prohibited_until_adjudicated:
-  - silently_merge_child_identity_into_parent
-  - claim_parent_api_or_deployment_from_child_engine
+root_engine_inheritance: prohibited
 ```
 
 ### ThriveTools OPT
 
 ```yaml
-portfolio_row: S100-PORT-019
+historical_state: parent_child_resolution_pending
+current_resolution: resolved_child_identity
+stable_id: ct.platform.thrivetools-opt
+parent_family: ct.platform.thrivetools
 engine_row: S100-ENG-062
-relationship_state: parent_child_resolution_pending
-candidate_parent: ct.platform.thrivetools
-prohibited_until_adjudicated:
-  - silently_merge_child_identity_into_parent
-  - claim_parent_api_or_deployment_from_child_engine
+api_contract: founder_supplied_v4_0_0
+credential_state: configured_in_dual_supabase_vault_aliases
+http_method_certification: pending
+authenticated_read: pending
+provider_writes: closed
+root_engine_inheritance: prohibited
 ```
+
+Current blocked relationship count is zero at the **identity relationship** layer. Runtime/API/provider gates remain independently open or closed as recorded; this is not blanket operational certification.
 
 ## Machine projection
 
@@ -165,7 +192,7 @@ The public-safe machine manifest remains:
 
 `developers/manifests/s103-s100-engine-domain-edges.v1.json`
 
-Tranche 2 advances the manifest version and deterministic validator. Validation must fail if source rows disappear, effective edge counts drift, Viloud or Partnero sharing collapses identities, the ThriveSupport family inherits CrownThrive Support implementation edges, ThriveTools child rows are silently promoted, `MVP (Roku)` receives effective edges, or source relationships are represented as current certification.
+Tranche 3 advances the manifest and deterministic validator while preserving tranche-2 history. Validation must fail if source rows disappear, effective edge counts drift, Viloud or Partnero sharing collapses identities, the ThriveSupport family inherits CrownThrive Support implementation edges, ThriveTools SEO/OPT child engines are attached to the root family, historical MVP Roku lineage is treated as current provider certification, or source relationships are represented as current certification.
 
 ## Hard entry gate
 
@@ -175,12 +202,12 @@ Tranche 2 required accepted S103/S100 identity work, recovered 68/85/82 source u
 
 - [x] S103 source rows and selected stable identities accepted;
 - [x] S100 68-row portfolio, 85-engine and 82-domain source rows recovered;
-- [x] 25 stable identities cross-linked without count flattening;
+- [x] 27 stable identities cross-linked without count flattening;
 - [x] Viloud shared-provider semantics preserved;
 - [x] Partnero shared-provider semantics preserved;
 - [x] ThriveSupport family/projection boundary preserved;
-- [x] ThriveTools SEO/OPT parent-child ambiguity preserved fail-closed;
-- [x] unresolved MVP Roku relationship remains fail-closed;
+- [x] ThriveTools SEO/OPT parent-child identity ambiguity resolved to distinct child applications without root inheritance;
+- [x] historical MVP Roku relationship founder-adjudicated into Melanated TV lineage while current provider promotion remains fail-closed;
 - [ ] current provider/account/license/version evidence attached across the material cohort;
 - [ ] current repository/deployment/API/export evidence attached across the material cohort;
 - [ ] current registrar/DNS/TLS/HTTP/canonical evidence attached across the material cohort;
@@ -216,8 +243,8 @@ No downstream phase gate is relaxed.
 
 ## Exact next packet
 
-1. attach current provider/account/license/version/deployment/API/export evidence to the highest-priority effective edges where authoritative evidence already exists;
-2. verify current registrar/DNS/TLS/HTTP/canonical state for the near-term P0/P1 domains, starting with `crownlytics.com`, `thrivetools.io`, `themaneexperience.com` and `thrivepush.io`, without turning S100 due dates into renewal instructions;
-3. resolve or explicitly freeze the remaining 20 S103 unresolved identities without speculative stable IDs;
-4. adjudicate ThriveTools SEO/OPT parent-child identity before attaching their engines to the root family;
+1. certify exact ThriveTools OPT HTTP methods, then execute bounded authenticated D0 reads beginning with `check-status`; keep upload/delete closed;
+2. attach current provider/account/license/version/deployment/API/export evidence to the highest-priority effective edges where authoritative evidence already exists;
+3. verify current registrar/DNS/TLS/HTTP/canonical state for the near-term P0/P1 domains, starting with `crownlytics.com`, `thrivetools.io`, `themaneexperience.com` and `thrivepush.io`, without turning S100 due dates into renewal instructions;
+4. continue the reduced S100 canonical identity queue (CHLOMLex and ThrivePerks plus typed TapStations work) without speculative IDs;
 5. run accumulated stable-ID uniqueness, source-reference integrity, shared-engine, projection-boundary and forbidden-promotion validation before any Workstream 4 rotation.

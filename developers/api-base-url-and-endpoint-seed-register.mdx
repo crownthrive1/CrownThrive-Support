@@ -338,14 +338,61 @@ Candidate domains include local profiles, CrownThrive ID account links, groups/m
 
 ```yaml
 platform_id: ct.platform.digital-business-academy
-disposition: needs_owner_validation
-relationship_to_crownthriveu: unresolved
+disposition: reserve_predecessor
+relationship_to_crownthriveu: founder_adjudicated_predecessor_reserve
 current_domain_engine_repository_data: unverified
 api_base_url: blocked_pending_adjudication
 public_api_docs: not_discovered
 ```
 
 Do not design or publish an active API until the asset is adjudicated as a predecessor, separate school/imprint, reserve, dormant platform or future CrownThriveU specialization. Any later implementation must include migration, canonical, credential, learner-data and article/changelog effects.
+
+## ThriveTools OPT
+
+Founder-supplied CrownThrive developer evidence on 2026-08-19 establishes a distinct ThriveTools OPT API application and displayed product version `v4.0.0`.
+
+```yaml
+platform_id: ct.platform.thrivetools-opt
+parent_family: ct.platform.thrivetools
+service_id: thrivetools_opt
+host: https://optimize.thrivetools.io
+base_url: https://optimize.thrivetools.io/api
+observed_product_version: v4.0.0
+authentication:
+  header: Authorization
+  credential: server_side_runtime_only
+credential_storage:
+  provider: Supabase Vault
+  primary_and_recovery_aliases: present
+  fingerprints_match: true
+adapter:
+  slug: thrivetools-opt-api-control
+  version: 1
+  verify_jwt: true
+  provider_dispatch: disabled_pending_method_certification
+state:
+  docs: founder_source_verified
+  credential_vault_binding: passed
+  parent_child_identity: passed
+  http_methods: pending_source_verification
+  authenticated_read: open
+  provider_writes: closed
+```
+
+Documented exact endpoint URLs:
+
+- `/get-images` — optimized-image collection;
+- `/get-media` — media-image collection;
+- `/upload` — file upload/optimization with `images[]`, `compression_ratio`, and `media_upload`;
+- `/delete` — array `image_id` plus `permanent_delete`;
+- `/get-single-image` — one `image_id`;
+- `/check-status` — optimization/storage quota status.
+
+The source shows `Content-type: application/json` for Delete and Get Single Image and `Content-type: form/data` for Upload. It does **not explicitly show HTTP verbs**, so no verb is promoted from inference. The first live certification should be a bounded D0 `check-status` request after exact method verification. Upload and Delete remain D2 write/destructive surfaces and are not enabled in the institutional adapter.
+
+The source-visible Check Status example shows `maximum_optimize: Unlimited`, `available_optimize: Unlimited` and `current_storage: 20GB`. Preserve that as supplied documentation/account evidence rather than a fresh live quota certification.
+
+See [ThriveTools OPT API Adapter](/developers/thrivetools-opt-api-adapter).
 
 ## Collab Portal Secure API
 
@@ -443,6 +490,22 @@ state:
 ```
 
 Current public API families include Campaigns, Campaign notifications, Notification handlers and Custom domains. Full API documentation, concrete schemas, delivery side effects, rate limits, consent/suppression behavior and provider integrations still require verification.
+
+## Phase 2.99 current API reconciliation — August 19, 2026
+
+### ThrivePush
+
+`ct.platform.thrivepush` / service `thrivepush` now has current REST/JSON/Bearer/UTC documentation, 18 API families, a JWT-protected `thrivepush-api-control@1` scaffold, 13 disabled MCP family contracts and a checksum-controlled service-worker asset. Credential binding is blocked pending an approved secret-write path; authenticated reads are open; writes are closed. See [ThrivePush API Adapter](/developers/thrivepush-api-adapter).
+
+### CrownLytics
+
+`ct.platform.crownlytics` / service `crownlytics` now has current REST/JSON/Bearer/UTC documentation for 11 API families, a JWT-protected `crownlytics-api-control@1` scaffold and 11 disabled MCP read-family contracts. Credential binding is blocked; authenticated reads remain open; writes are closed. The copied `locticians.com` header is preserved as source-context drift rather than identity evidence. See [CrownLytics API Adapter](/developers/crownlytics-api-adapter).
+
+### CrownPulse Admin
+
+`ct.platform.crownpulse` / service `crownpulse_admin` now has founder-observed privileged REST/Bearer Admin API evidence for Users, Plans, Payments and Domains. `crownpulse-admin-api-control@1` is JWT protected; 14 MCP contracts are disabled, six with human-approval requirements. The UI reports update available `v61.0.0` and support expired; installed version remains unverified. Credential binding is blocked; privileged mutations are closed. See [CrownPulse Admin API Adapter](/developers/crownpulse-admin-api-adapter).
+
+The connected secure-write layer rejected direct Vault insertion for the founder-supplied keys before persistence. No raw secret is represented as stored. Provider dispatch remains fail-closed.
 
 ## CrownThrive IO and domains
 

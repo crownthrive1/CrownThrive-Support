@@ -16,8 +16,17 @@ CrownThrive manages more assets than it actively builds at one time. This regist
 - portfolio priority;
 - current lifecycle state;
 - current institutional-build phase;
-- public URL(s);
+- public URL(s) and public-safe domain roles;
+- public-safe portfolio route;
+- internal documentation links;
+- press-room/media-kit route or archive press disposition;
+- public `Powered by CrownThrive` relationship evidence where observed;
 - repository/deployment;
+- installed software/engine version, which may remain `unverified` until directly proved;
+- highest known available version from the strongest current authoritative evidence;
+- staged target version, which must equal the highest known available version unless a documented compatibility/legal/vendor constraint blocks that target;
+- version evidence source and observation date;
+- upgrade status, compatibility/preflight status, backup checkpoint and rollback plan;
 - authentication state;
 - commerce state;
 - entitlement/fulfillment state;
@@ -26,7 +35,18 @@ CrownThrive manages more assets than it actively builds at one time. This regist
 - data/integration state;
 - last verified date;
 - blocker list;
-- next milestone.
+- next milestone;
+- page/version/correction history.
+
+## Highest-known version staging rule
+
+Standing CrownThrive rule: whenever a software-backed platform, engine, service, plugin, application, framework runtime or provider exposes a newer authoritative version, the **highest known version is immediately documented and staged as the upgrade target**. The planned direction is always to move the CrownThrive implementation to that highest known version.
+
+`installed_version` and `target_version` are independent facts. If the installed version is unknown, do **not** stage an older release merely because current deployment proof is incomplete. Record the installed state as `unverified`, preserve the highest authoritative version as `highest_known_version`, and set `target_version` to that highest known version with `upgrade_status: staged_pending_preflight`.
+
+Staging means the target version, source/date, release/update evidence, compatibility requirements, migrations/customizations, runtime requirements, license/support prerequisites, backup checkpoint, rollback path, validation plan and downstream documentation impact are prepared. Staging is not proof that the version is installed, deployed or production-certified. Production mutation remains fail-closed until the applicable backup, compatibility, migration, security, data, legal/provider and rollback gates pass.
+
+If stronger evidence later identifies a newer version, the staged target advances prospectively to that newer highest-known version. Historical installed and prior-target records remain preserved rather than overwritten.
 
 ## Initial verified snapshot — August 17, 2026
 
@@ -74,7 +94,7 @@ CrownThrive manages more assets than it actively builds at one time. This regist
 | ThriveCafe | Historical identity distinct from Melanin Magic Cafe; current repurpose decision not recovered | `sunset_repurpose_pending` |
 | FindCliques | Recovered community platform identity with no authorized current 2.0 production claim | `reserve_future_rebuild` |
 | SocialAIly | Public/recovered legacy identity; current source/provider/account/deployment state unverified | `legacy_current_state_unverified` |
-| Tribes / Melanated Culture & Heritage Museum / Digital Business Academy / NeuralCraft AI Studio / Ilyass.AI / Quantum Initiative / CrownJewel / Storytime / MV VoiceForge / MVP Roku | Recovered names with unresolved canonical relationship, current role or implementation state | `needs_owner_validation` |
+| Tribes / Melanated Culture & Heritage Museum / Digital Business Academy / NeuralCraft AI Studio / Ilyass.AI / CrownThrive Quantum Initiative / CrownJewel / Storytime / MV VoiceForge / MVP Roku | Founder identity/disposition adjudication completed; provider/deployment/legal/runtime state remains separate | mixed: `reserve_legacy`, `planned_reserve`, `reserve_predecessor`, `current_top_level_identity`, `historical_never_adopted`, `research_reserve`, `reserve`, `content_series_reserve`, `subtool_capability`, `merged_historical_implementation` — see Extended Register and Alias/Successor Register |
 
 ## Phase 2.98 Pass D7 education and community update — August 18, 2026
 
@@ -85,7 +105,7 @@ CrownThrive manages more assets than it actively builds at one time. This regist
 | CrownConsults | Current strategic paid expert-help role exists; expert roster, qualifications/licensure, service catalog, booking/payment, provider and API state remain unverified | `institutional-role-current`; professional/provider/commerce/API `unverified/not_connected` |
 | ThriveAlumni | Current alumni/contributor continuity and leadership role plus Master Policy/addendum and Zaialumni/Donation Add-on lineage are preserved; current provider/version, member/chapter/committee data, fundraising and API state remain unverified | `institutional-role-current`; historical civic/government architecture `superseded-context`; implementation/data/API `unverified/not_connected` |
 | CrownThrive Commons | Current private/gated social/community role is preserved separately from CrownThrive ID; engine/version, local profiles/groups/messages, auth/account linking, privacy/moderation and API state remain unverified | `institutional-role-current`; identity-authority `not_applicable`; implementation/data/API `unverified/not_connected` |
-| Digital Business Academy | Recovered education identity lacks an adopted relationship to CrownThriveU and current implementation evidence | `needs_owner_validation`; no active course/credential/provider/API claim |
+| Digital Business Academy | Founder adjudication: reserve/predecessor education concept under CrownThriveU; future Sites conceptualization/formalization; no current implementation evidence | `reserve_predecessor`; no active course/credential/provider/API claim |
 
 Capability fields remain independent. A platform may be publicly reachable while source, API, commerce, entitlement, admin, support or recovery states remain blocked or unverified.
 
@@ -101,7 +121,7 @@ Current row-resolution state:
 - six require intentional typed/composite splits;
 - six remain canonical/child identity resolution items.
 
-The current media tranche assigns stable IDs to the S100 Melanated Voices, Melanated TV, MVP orchestration, Melanated Voices TV, Locticians TV, TAME, Melanated Vault, Melanated Stock and Artful Mane Gallery rows without treating provider/account/deployment state as verified. The separate S103 `MVP (Roku)` lineage item remains unresolved.
+The current media tranche assigns stable IDs to the S100 Melanated Voices, Melanated TV, MVP orchestration, Melanated Voices TV, Locticians TV, TAME, Melanated Vault, Melanated Stock and Artful Mane Gallery rows without treating provider/account/deployment state as verified. Founder adjudication now resolves the separate S103 `MVP (Roku)` identity as a historical Roku/distribution implementation merged into Melanated TV; provider/channel history may remain separately evidenced.
 
 `CT-CON-034`, `CT-CON-035` and `CT-CON-036` preserve the CHLOM framework/platform, MM Suites framework/platform and ThriveSupport/CrownThrive Support platform-family/projection distinctions.
 
@@ -114,3 +134,8 @@ Any asset not recently verified must remain `unverified-current-state` even if i
 Before Phase 3 entry may be reconsidered, this registry must reconcile against the complete portfolio/source/domain/engine identity graph, retain explicit unknowns, and be periodically verifiable through domain checks, repository/deployment evidence, smoke tests, billing/entitlement tests where applicable, owner review and source/claim correction history.
 
 Current entry state: `blocked_pending_phase_2_99_hard_exit`.
+
+### Page changelog
+
+- **2026-08-20:** adopted the standing highest-known-version staging rule: the strongest known software release becomes the documented upgrade target immediately, while installed-version proof, compatibility, backup and rollback remain separate gates.
+- **2026-08-19:** reconciled founder long-tail identity decisions including Digital Business Academy and MVP Roku; added public domain/portfolio/internal-link/press-room/Powered-by/version fields to the platform-state contract.
