@@ -63,7 +63,8 @@
           "doctrine/founder-doctrine-and-code",
           "doctrine/phase-and-maturity-namespaces",
           "doctrine/framework-engine-registry",
-          "doctrine/imprint-universe-room-and-canon-governance"
+          "doctrine/imprint-universe-room-and-canon-governance",
+          "doctrine/revival-doctrine"
         ]
       },
       {
@@ -104,7 +105,9 @@
           "portfolio/p0-operating-portfolio",
           "portfolio/extended-platform-framework-register",
           "portfolio/platform-state-register",
-          "portfolio/imprint-brand-universe-seed-register"
+          "portfolio/imprint-brand-universe-seed-register",
+          "portfolio/public-brand-platform-portfolio",
+          "portfolio/asset-resurrection-disposition-registry"
         ]
       },
       {
@@ -140,7 +143,9 @@
           "knowledge/phase-2-99-workstream-3a-holdings-82-domain-source-seed",
           "knowledge/phase-2-99-workstream-3a-phase-2-7-74-platform-framework-source-seed",
           "knowledge/phase-2-99-workstream-3a-s103-74-canonical-identity-crosswalk",
-          "knowledge/phase-2-99-workstream-3a-engine-domain-identity-edge-register"
+          "knowledge/phase-2-99-workstream-3a-engine-domain-identity-edge-register",
+          "knowledge/founder-handbook-deep-reconciliation",
+          "knowledge/founder-adjudications-2026-08-19"
         ]
       },
       {
@@ -153,6 +158,14 @@
           "revenue/compensation-and-value-routing",
           "revenue/measurement-and-kpis",
           "revenue/crown-affiliates-flywheel-engine"
+        ]
+      },
+      {
+        "group": "Press & Media",
+        "icon": "newspaper",
+        "pages": [
+          "press/index",
+          "press/brand-press-room-standard"
         ]
       },
       {
@@ -272,7 +285,9 @@
         "pages": [
           "runbooks/production-deployment-and-rollback",
           "runbooks/webhook-and-payment-failure",
-          "runbooks/rights-hold-and-content-correction"
+          "runbooks/rights-hold-and-content-correction",
+          "runbooks/founder-handbook-reconciliation",
+          "runbooks/asset-revival-and-disposition"
         ]
       },
       {
@@ -325,13 +340,15 @@
           "changelog/phase-2-99-workstream-3a-holdings-82-domain-reconciliation",
           "changelog/phase-2-99-collab-portal-webhooks-and-runtime",
           "changelog/phase-2-99-workstream-3a-s103-stable-id-tranche-2",
+          "changelog/phase-2-99-workstream-3a-thrivetools-child-api-reconciliation",
           "changelog/phase-2-99-s102-webhook-state-reconciliation",
           "changelog/phase-2-99-workstream-3a-phase-2-7-74-registry-reconciliation",
           "changelog/phase-2-99-workstream-3a-s103-stable-id-tranche-1",
           "changelog/phase-2-99-workstream-3a-engine-domain-identity-edge-tranche-1",
           "changelog/phase-2-99-workstream-3a-engine-domain-identity-edge-tranche-2",
           "changelog/phase-2-99-collab-runtime-v2-vault-certification",
-          "changelog/phase-2-99-governance-as-code-enforcement-audit"
+          "changelog/phase-2-99-governance-as-code-enforcement-audit",
+          "changelog/adr-twenty-phase-institutional-roadmap-migration"
         ]
       },
       {
@@ -347,6 +364,8 @@
           "developers/builder-program",
           "developers/api-endpoint-discovery-and-adapter-registry",
           "developers/collab-portal-secure-api-adapter",
+          "developers/thrivepush-api-adapter",
+          "developers/thrivetools-opt-api-adapter",
           "developers/api-base-url-and-endpoint-seed-register",
           "developers/phase-2-98-domain-api-discovery-ledger"
         ]
@@ -425,7 +444,8 @@
           "standards/external-standards-alignment-register",
           "standards/ai-assisted-generated-content-human-authorship-and-disclosure",
           "standards/documentation-source-of-truth-and-autonomous-governance",
-          "standards/ten-phase-institutional-program-charter"
+          "standards/ten-phase-institutional-program-charter",
+          "standards/twenty-phase-institutional-program-charter"
         ]
       }
     ]
