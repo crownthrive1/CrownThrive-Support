@@ -1,0 +1,123 @@
+---
+title: "Developer Asset Commercialization"
+sidebarTitle: "Asset commercialization"
+description: "Package institutional know-how into governed, versioned, and fulfillment-certified developer products."
+icon: "boxes-packing"
+keywords: ["digital assets", "commercialization", "fulfillment", "runbooks"]
+---
+
+Use this runbook to convert protected institutional knowledge into a sanitized, versioned, privately stored, licensable digital-asset candidate and, only after independent review, a fulfillable CrownThrive credit-store offer.
+
+## Two independent lifecycles
+
+Asset lifecycle:
+
+concept → candidate → packaged → rights cleared → fulfillment certified
+
+Commerce lifecycle:
+
+legal and tax approved → funding staged → offer enabled → test canaries passed → owner activated → live
+
+A downstream surface never promotes an earlier state. The package builder is deliberately unable to certify its own output.
+
+## 1. Rank a real market gap
+
+Identify the buyer, repeatable operating pain, demand evidence, current alternatives, differentiation, update burden, risk, recommended format, and price hypothesis. Prefer evergreen control gaps where a maintained runbook, schema, checklist, test harness, design system, or integration pack provides durable value.
+
+The scheduled gap-to-asset cycle may research opportunities and create at most one private candidate per ISO week. It may not publish a site, merge code, activate commerce, choose tax treatment, or change legal terms.
+
+## 2. Sanitize the knowledge boundary
+
+Separate the repeatable method from production identities, credentials, customer data, private incident evidence, internal-only prompts, trade-secret calibration, raw provider responses, and account identifiers.
+
+<Warning>
+  Synthetic examples are allowed. API keys, auth tokens, secret values, customer payloads, provider object IDs, private Drive links, internal logs, and restricted evidence are not product content.
+</Warning>
+
+Complete ownership, data provenance, third-party license, dependency, brand, platform-term, privacy, and permitted-use review before rights clearance.
+
+## 3. Build the candidate
+
+Every candidate should contain:
+
+- a plain-language entry point and stated buyer outcome;
+- implementation or operator runbook;
+- reusable checklists, schemas, templates, or manifests;
+- positive, negative, abuse, replay, and rollback tests where applicable;
+- dependency, customer-owned account/API key, usage-cost, support, migration, and end-of-life assumptions;
+- license-class and license-version placeholders;
+- a manifest with semantic version, exact file inventory, byte size, SHA-256, provenance, and legal-review state.
+
+Use immutable SKUs and semantic asset versions. Normalize timestamps and sort file order so archives are deterministic where practical. Store candidates privately in Supabase Storage and Google Drive, then read back bytes and checksum. Packaged is not fulfillment certified.
+
+## 4. Stage the closed-loop credit offer
+
+Stripe is funding-only. Use hosted Checkout for fixed top-up denominations; do not use a client-supplied amount. Supabase Auth is the identity authority, and the application credit ledger is the balance authority.
+
+The public catalog may show unavailable preview offers. Do not activate the program, a top-up, an offer, a Stripe Product/Price, test funding, or live funding until the exact environment gates are approved.
+
+Membership purchases made with credits grant fixed-duration access, such as 30 or 365 days. They are not recurring subscriptions unless a separate approved recurring-billing system is implemented and disclosed.
+
+## 5. Verify funding server-side
+
+A return URL is not payment evidence. The service must retrieve the Checkout Session and verify:
+
+1. mode matches the configured Stripe key and explicit enable flag;
+2. Checkout and payment status are complete and paid;
+3. top-up record, customer identity, client reference, metadata, Price, amount, currency, and quantity match;
+4. the top-up and program remain active and approved;
+5. one stable idempotency key produces at most one credit entry.
+
+Append credits atomically. Never edit historical ledger entries to hide mistakes.
+
+## 6. Purchase, license, and deliver atomically
+
+A credit purchase must lock the account and require an active approved program, active account, enabled certified offer, certified private asset, sufficient balance, and offer-bound idempotency.
+
+One successful purchase creates one non-live internal-credit order, one entitlement, and one versioned license grant. Another identity must not access it. Delivery requires an active entitlement and license and returns only a short-lived signed private-storage URL.
+
+Refunds and disputes use explicit compensating entries and the approved entitlement/license policy. A reversal must not create a negative balance silently; unresolved downstream-spend cases require governed review.
+
+## 7. Certify with mode-specific canaries
+
+Before enabling test funding, and again before live funding, collect evidence for:
+
+- anonymous and cross-identity rejection;
+- malformed, stale, replayed, and offer-swapped idempotency rejection;
+- exact top-up field and environment validation;
+- one funding event producing one credit entry;
+- insufficient balance rejection;
+- one credit purchase producing one order, entitlement, and license;
+- private download authorization and expiry;
+- refund and dispute reconciliation;
+- membership expiry;
+- dependency failure, retry, monitoring, and rollback.
+
+Current August 20, 2026 status is fail-closed: eight assets are packaged but uncertified, five top-ups and eight offers are unavailable, both funding flags are false, no live orders or active entitlements exist, and anonymous top-up/purchase probes fail as required. This supports an MVP control checkpoint, not commercial activation.
+
+## 8. Publish and maintain
+
+Publish only the public-safe projection. Keep secrets, customer data, provider identifiers, private storage paths, raw evidence, and internal control prompts out of Sites, Mintlify, GitHub issues, and downloadable products.
+
+Existing scheduled agents may:
+
+- check public health/catalog and provider drift;
+- reconcile eligible pending funding/refund/dispute state through the approved secret-backed path;
+- rank market gaps and create bounded private candidates;
+- draft Field Journal and documentation candidates;
+- report licensing, tax, security, freshness, and canary blockers.
+
+They may not approve law or tax, certify their own assets, create manual credits/orders/licenses, activate Stripe, expose signed URLs, or publish operative terms.
+
+## Status contract
+
+| Status | Meaning |
+| --- | --- |
+| PASS | Current provider evidence supports the exact claim |
+| WATCH | Working or staged, but freshness, review, or drift remains |
+| BLOCKED | A required permission, approval, binding, policy, or dependency is absent |
+| DEFERRED | Intentionally outside the present release boundary |
+
+SoundCloud authenticated APIs remain excluded by founder override: NOT\_APPLICABLE or REMOVED\_BY\_FOUNDER\_OVERRIDE. Public embeds only, with autoplay off.
+
+A high-quality product does more than teach the happy path. It states the authority boundary, proves failure behavior, records licensing and dependencies, and tells the buyer when its assumptions have stopped being true.
