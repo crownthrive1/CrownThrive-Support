@@ -1,0 +1,203 @@
+name: Gen-7 Packet Executor — PR220
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: gen7-pr220-owner-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  owner-closure:
+    name: Validate owner evidence and submit exact-head receipt
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact PR or branch head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Fetch current canonical main
+        run: git fetch --no-tags origin main
+
+      - name: Validate disclosure, rollback, and exact-head evidence
+        id: validate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/validate_docs.py
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          import pathlib
+          import subprocess
+
+          path = pathlib.Path("evidence/pr220-owner-closure.v1.json")
+          data = json.loads(path.read_text(encoding="utf-8"))
+          event = json.loads(pathlib.Path(os.environ["GITHUB_EVENT_PATH"]).read_text(encoding="utf-8"))
+          expected_files = {
+              ".github/workflows/gen7-packet-executor.yml",
+              ".github/workflows/governed-merge-gate.yml",
+              "automation/scheduled-task-agent-architecture.mdx",
+              "changelog/locticians-claimmonth50-and-scheduled-agent-architecture-2026-08-21.mdx",
+              "developers/manifests/sales-email-ops-skill-suite.v2.json",
+              "developers/manifests/scheduled-agent-architecture.v1.json",
+              "evidence/pr220-executor-checkpoint-2026-08-22.json",
+              "evidence/pr220-owner-closure.v1.json",
+              "skills/sales-email-ops-v2/locticians-claim-outreach/SKILL.md",
+              "workflows/locticians-claim-offer-conversion.mdx",
+          }
+          assert data["packet_id"] == "ct.packet.gen6.pr220-public-projection-containment"
+          assert data["pr_number"] == 220
+          assert data["owner_agent_id"] == "ct.relay.agent-c"
+          assert data["independent_verifier_agent_id"] == "ct.relay.agent-s"
+          assert set(data["classification"]) == expected_files
+          assert set(data["owner_blockers_closed_by_this_packet"]) == {"ip_disclosure", "rollback"}
+          assert data["remaining_blockers_after_owner_handoff"] == ["independent_review", "sovereign_quorum"]
+          assert data["rollback"]["force_push"] is False
+          assert data["rollback"]["silent_delete"] is False
+          assert data["rollback"]["provider_or_database_rollback_required"] is False
+          assert data["authority"]["phase_3_effect"] is False
+
+          pr = event.get("pull_request") or {}
+          pr_number = int(pr.get("number") or event.get("number") or 0)
+          pr_head_sha = str((pr.get("head") or {}).get("sha") or "").lower()
+          head_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip().lower()
+          if os.environ.get("GITHUB_EVENT_NAME") == "pull_request":
+              assert pr_number == 220
+              assert pr_head_sha == head_sha
+          else:
+              pr_number = 220
+              pr_head_sha = head_sha
+
+          main_sha = subprocess.check_output(["git", "rev-parse", "origin/main"], text=True).strip()
+          merge_base = subprocess.check_output(["git", "merge-base", "origin/main", "HEAD"], text=True).strip()
+          ahead = int(subprocess.check_output(["git", "rev-list", "--count", "origin/main..HEAD"], text=True).strip())
+          behind = int(subprocess.check_output(["git", "rev-list", "--count", "HEAD..origin/main"], text=True).strip())
+          evidence_sha = hashlib.sha256(path.read_bytes()).hexdigest()
+
+          payload = {
+              "payload": {
+                  "packet_id": data["packet_id"],
+                  "pr_number": pr_number,
+                  "pr_head_sha": pr_head_sha,
+                  "action": "continue_and_handoff",
+                  "step_key": "pr220-owner-closure-v1",
+                  "head_sha": pr_head_sha,
+                  "progress_percent": 70,
+                  "work_units": 4,
+                  "blocker_codes": ["independent_review", "sovereign_quorum"],
+                  "evidence_refs": [
+                      f"github:pr220@{pr_head_sha}",
+                      "github:file:evidence/pr220-owner-closure.v1.json",
+                      "github:file:evidence/pr220-executor-checkpoint-2026-08-22.json",
+                      f"github:workflow-run:{os.environ['GITHUB_RUN_ID']}",
+                      f"github:main:{main_sha}",
+                      f"github:merge-base:{merge_base}",
+                      f"sha256:{evidence_sha}",
+                  ],
+                  "unlock_condition": "Independent Agent S exact-head review, then separately governed sovereign quorum including Agent D.",
+                  "reason": "PR #220 owner-side public/private disclosure classification and append-only rollback/dry-run evidence completed; handoff to independent Security Agent S.",
+                  "metrics": {
+                      "classification_files": len(expected_files),
+                      "owner_blockers_closed": 2,
+                      "remaining_blockers": 2,
+                      "current_main_sha": main_sha,
+                      "merge_base_sha": merge_base,
+                      "ahead_by": ahead,
+                      "behind_by": behind,
+                      "evidence_sha256": evidence_sha,
+                      "github_event_name": os.environ.get("GITHUB_EVENT_NAME"),
+                      "duplicate_push_receipt_suppressed": True,
+                      "direct_main_write": False,
+                      "provider_write": False,
+                      "credential_exposure": False,
+                      "sovereign_vote_effect": False,
+                  },
+              }
+          }
+          pathlib.Path("/tmp/chlom-payload.json").write_text(json.dumps(payload, separators=(",", ":")), encoding="utf-8")
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as out:
+              out.write(f"head_sha={pr_head_sha}\n")
+              out.write(f"main_sha={main_sha}\n")
+              out.write(f"merge_base={merge_base}\n")
+              out.write(f"ahead={ahead}\n")
+              out.write(f"behind={behind}\n")
+              out.write(f"evidence_sha={evidence_sha}\n")
+          PY
+
+      - name: Obtain short-lived GitHub OIDC token
+        id: oidc
+        shell: bash
+        run: |
+          set -euo pipefail
+          token_json=$(curl --fail --silent --show-error \
+            -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=chlom-github-executor")
+          id_token=$(python -c 'import json,sys; print(json.load(sys.stdin)["value"])' <<<"${token_json}")
+          echo "token=${id_token}" >> "${GITHUB_OUTPUT}"
+
+      - name: Submit exact-head owner receipt to CHLOM
+        env:
+          ID_TOKEN: ${{ steps.oidc.outputs.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          status=$(curl --silent --show-error \
+            -o /tmp/chlom-bridge-response.json \
+            -w '%{http_code}' \
+            -X POST \
+            -H "Authorization: Bearer ${ID_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data-binary @/tmp/chlom-payload.json \
+            "https://tzajnzshmtzjenqulehq.supabase.co/functions/v1/chlom-github-executor-bridge")
+          python - <<'PY'
+          import json
+          import pathlib
+          value=json.loads(pathlib.Path('/tmp/chlom-bridge-response.json').read_text(encoding='utf-8'))
+          print(json.dumps(value, indent=2))
+          PY
+          if [ "${status}" != "200" ]; then
+            echo "CHLOM bridge returned HTTP ${status}" >&2
+            exit 1
+          fi
+          python - <<'PY'
+          import json
+          import pathlib
+          value=json.loads(pathlib.Path('/tmp/chlom-bridge-response.json').read_text(encoding='utf-8'))
+          assert value.get("ok") is True, value
+          result=value.get("result") or {}
+          assert result.get("accepted") is True, value
+          assert result.get("sovereign_vote_effect") is False, value
+          assert result.get("secret_exposed") is False, value
+          PY
+
+      - name: Publish public-safe execution summary
+        run: |
+          {
+            echo "## PR #220 Gen-7 owner execution"
+            echo ""
+            echo "- Exact PR head: \`${{ steps.validate.outputs.head_sha }}\`"
+            echo "- Current main: \`${{ steps.validate.outputs.main_sha }}\`"
+            echo "- Merge base: \`${{ steps.validate.outputs.merge_base }}\`"
+            echo "- Ahead / behind: ${{ steps.validate.outputs.ahead }} / ${{ steps.validate.outputs.behind }}"
+            echo "- Evidence SHA-256: \`${{ steps.validate.outputs.evidence_sha }}\`"
+            echo "- Closed owner blockers: disclosure classification, rollback/dry-run"
+            echo "- Remaining: independent review, sovereign quorum"
+            echo "- Secret exposure: none"
+            echo "- Sovereign vote effect: none"
+          } >> "${GITHUB_STEP_SUMMARY}"
