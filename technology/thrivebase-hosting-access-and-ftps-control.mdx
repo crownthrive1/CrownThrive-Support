@@ -1,0 +1,108 @@
+---
+title: "ThriveBase Hosting Access & FTPS Control"
+sidebarTitle: "ThriveBase FTPS Control"
+description: "Public-safe institutional record for the ThriveBase hosting access surface, secure credential custody, explicit FTPS verification, fail-closed certificate handling and deployment-readiness gates."
+icon: "server"
+keywords: ["ThriveBase", "THIVEBASE", "FTPS", "hosting", "cPanel", "credential custody", "deployment access", "security"]
+---
+
+# ThriveBase Hosting Access & FTPS Control
+
+## Purpose
+
+This record governs the dedicated hosting-access path being prepared for ThriveBase site work. It separates **credential custody**, **transport security**, **provider authentication**, **file-read capability** and **write authority** so one successful layer is never misrepresented as full deployment access.
+
+## Current state — August 21, 2026
+
+```yaml
+surface: ThriveBase hosting access
+provider_family: cPanel / Pure-FTPd
+transport_target: explicit FTPS on port 21
+credential_custody: verified_restricted_dual_reference
+requested_public_alias: ftp.crownthrive.io
+requested_alias_tls_state: hostname_validation_failed
+provider_server_tls_state: certificate_validation_passed_restricted_host
+provider_authentication: pass
+username_form: full_account_address
+directory_listing: pass
+file_read_capability: pass_hash_only_canary
+provider_write_capability: closed_unverified
+state: READ_CERTIFIED_WRITE_CLOSED
+```
+
+The dedicated credential is stored only through the restricted CHLOM/THIVEBASE credential-control path with primary and recovery custody. The raw username/password, fingerprint, recovery aliases and provider-internal server hostname are **not public documentation**.
+
+The founder clarified that the previously supplied leading `21` belonged to the explicit-FTPS port, not the password. The restricted Vault copies were corrected in place without exposing the credential. The corrected credential then authenticated successfully using the full FTP-account address.
+
+## Transport finding
+
+The configured public FTP alias currently reaches a TLS-capable Pure-FTPd service, but strict certificate hostname validation fails for that alias. The institutional rule remains fail closed:
+
+- do not transmit credentials through a hostname whose certificate identity does not validate;
+- do not disable certificate verification to force a connection;
+- do not fall back to plaintext FTP;
+- do not treat a successful TCP connection or `AUTH TLS` response as authenticated access.
+
+First-party cPanel evidence identifies the provider's canonical server hostname in the restricted control plane. A strict explicit-FTPS probe against that provider hostname passed certificate validation, authenticated successfully and completed a read-only directory listing.
+
+## Credential state versus authentication state
+
+Credential custody, provider authentication, file-read capability and deployment authority are separate controls.
+
+```text
+Vault custody PASS
+      ↓
+TLS server identity PASS on restricted provider hostname
+      ↓
+FTP authentication PASS
+      ↓
+Directory listing PASS
+      ↓
+Hash-only file read PASS
+      ↓
+File write / deployment CLOSED
+```
+
+The FTPS adapter now has `read_capability_state = pass`, while its write canary and read-after-write controls remain unverified. It therefore remains a governed candidate adapter rather than a fully certified write adapter.
+
+## cPanel control-plane read probe
+
+A separate read-only test used the already-governed cPanel API credential to attempt account-information and FTP-account inventory reads. The provider returned HTTP `403 Access denied` from both the public cPanel host and the provider-canonical host. No mutation endpoint was called.
+
+This result remains a separate `HOLD_ACCESS_DENIED` for remote cPanel API inventory. It does not invalidate the successful explicit-FTPS authentication and read canary.
+
+## Safe file-access certification
+
+The corrected credential passed the read-only certification sequence:
+
+1. strict explicit FTPS with certificate validation on the provider-canonical hostname;
+2. authentication with the full FTP-account address;
+3. account-root directory listing;
+4. hash-only read of the provider quota metadata file as the available safe canary;
+5. content withheld from logs and documentation;
+6. zero upload, delete, rename, chmod, password, billing or deployment writes.
+
+The account root currently contains only FTP filesystem metadata and no website payload. That is important operational evidence: **secure access is working, but the intended ThriveBase website document root/content has not yet been established in this FTP scope.**
+
+Files such as `.env`, private keys, credential files, database dumps, backup archives and configuration secrets remain excluded from read-canary selection.
+
+## Deployment authority
+
+Successful FTPS authentication establishes a provider-access capability, not unrestricted site authority. Before automated site changes begin, the deployment adapter still requires:
+
+- intended website document-root mapping;
+- current source/repository or provider-source authority;
+- backup and rollback target;
+- bounded writable path;
+- controlled write canary;
+- read-after-write verification;
+- rollback verification;
+- change receipt and DAIL event;
+- secret redaction in logs and documentation;
+- separation between hosting access and CHLOM/THIVEBASE data authority.
+
+## Current conclusion
+
+The ThriveBase credential is institutionally vaulted, explicit-FTPS authentication now passes, directory listing passes and a hash-only file-read canary passes without exposing file contents. No provider-side write occurred.
+
+The remaining transport issue is the certificate-name mismatch on `ftp.crownthrive.io`; the normal credential-bearing alias should not be used until that identity is corrected. The next implementation gate is to establish the intended ThriveBase website document root/content and then perform a separately governed write + read-after-write + rollback canary before production deployment writes are opened.
