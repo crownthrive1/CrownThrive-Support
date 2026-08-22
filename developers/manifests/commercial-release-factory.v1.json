@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "suite_id": "ct.agent-suite.commercial-release-factory.v1",
+  "canonical_name": "CrownThrive Commercial Release Factory",
+  "lifecycle_state": "superseded_compatibility_contract",
+  "superseded_by": "developers/manifests/commercial-release-factory.v2.json",
+  "canonical_runtime_contract": "2.0.0",
+  "credit_only": true,
+  "direct_sites_provider_write": false,
+  "checkout_enabled": false,
+  "sovereign_votes_created": false,
+  "historical_contract_deleted": false
+}

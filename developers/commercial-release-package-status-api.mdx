@@ -1,0 +1,36 @@
+---
+title: "Commercial Release Factory Status API"
+sidebarTitle: "Release Factory API"
+description: "JWT-protected aggregate and exact-SKU status contract for the Launch, Ready, and Procure release factory."
+icon: "chart-network"
+tag: "Controlled Test"
+---
+
+# Commercial Release Factory Status API
+
+The canonical `commercial-release-factory-status` service exposes sanitized aggregate or exact-SKU state for the governed commercial release-package estate. The former `commercial-release-package-status` slug remains a compatibility alias to the same v2 RPC contract.
+
+## Contract
+
+- method: `GET` only;
+- authentication: gateway-verified JWT plus an authenticated-user subject or service-role claim;
+- anonymous-role JWT: rejected;
+- optional input: exact `CT-LAUNCH-*`, `CT-READY-*`, or `CT-PROCURE-*` SKU;
+- mutation authority: none;
+- customer records, credentials, Vault bodies, private storage paths, and protected scoring bodies: excluded;
+- cache policy: `no-store`.
+
+The aggregate response reports the 30-package estate, current gate totals, retained alias continuity, exact-binding mismatch counts, route state, nonsovereign agent count, and credit-only controls. The per-SKU response reports the exact asset/package binding, current gate states, governed-release state, and feed-consumer state.
+
+## Fail-closed behavior
+
+- missing JWT returns `401` at the gateway;
+- a valid anonymous-role token returns `403` in the function;
+- non-GET methods return `405`;
+- invalid SKU shape returns `400`;
+- unavailable runtime configuration or readback returns `503` without protected details;
+- API success never certifies a product, manufactures a vote, enables checkout, or authorizes publication.
+
+## Current state
+
+Both service slugs are ACTIVE with JWT verification enabled. The canonical source system is `commercial_sites_candidate_4`; the former source key is a compatibility alias. Runtime status remains 30 held packages, 30 current PASS gates, 280 current HOLD gates, zero accepted/published products, and zero exact-binding mismatches.

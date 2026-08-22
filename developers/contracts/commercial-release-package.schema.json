@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://crownthrive.com/schemas/commercial-release-package.v1.json",
+  "title": "CrownThrive Commercial Release Package v1 Compatibility Contract",
+  "description": "Deprecated compatibility marker. New release packages must validate against commercial-release-package.v2.schema.json.",
+  "deprecated": true,
+  "type": "object",
+  "required": ["schema_version"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "superseded_by": {"const": "developers/contracts/commercial-release-package.v2.schema.json"}
+  },
+  "additionalProperties": true
+}
