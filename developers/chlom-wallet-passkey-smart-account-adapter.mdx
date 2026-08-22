@@ -1,0 +1,283 @@
+---
+title: "CHLOM Wallet Passkey & Smart-Account Adapter"
+sidebarTitle: "Passkey Smart Account"
+description: "Controlled-test contract for CHLOM Wallet WebAuthn registration, assertion, recovery step-up, CAIP identities and deterministic ERC-4337 v0.9 intents without hidden deployment, custody or value movement."
+icon: "fingerprint"
+---
+
+# CHLOM Wallet Passkey & Smart-Account Adapter
+
+**State:** `CONTROLLED_TEST_ACTIVE / SPECIFIED_NOT_DEPLOYED`  
+**Production credential activation:** disabled  
+**Smart-account deployment:** not authorized  
+**Chain broadcast:** disabled  
+**Money movement:** disabled
+
+CHLOM Wallet is designed to present one simple CrownThrive identity and wallet experience while preserving strict separation among authentication, rights, money, rewards, impact, proof and blockchain adapters. Passkeys remove seed-phrase ceremony from the customer experience; they do not erase authority, recovery, replay, counter, custody or chain-governance requirements underneath.
+
+## Standards and implementation profile
+
+The current lane uses public interoperability standards and a patched verification library rather than custom cryptography:
+
+- **WebAuthn Level 3** for public-key credential ceremonies, relying-party binding and authenticator data;
+- **ES256 / P-256** as the bounded controlled-test credential algorithm;
+- **CAIP-2** for chain identifiers;
+- **CAIP-10** for chain-qualified account identifiers;
+- **ERC-4337 v0.9** as the account-abstraction hashing and transaction-intent profile;
+- **ERC-7579** as a modular-account interface candidate;
+- **`@simplewebauthn/server@13.3.2`** for deployed controlled-test registration and assertion verification.
+
+Adopting or testing a standard does not authorize production credentials, an account deployment, a signer, a bundler, a paymaster or a blockchain transaction.
+
+## Restricted WebAuthn runtime
+
+A JWT-protected Edge service is deployed as:
+
+```yaml
+service_id: ct.service.chlom-wallet-passkey-control
+function_slug: chlom-wallet-passkey-control
+function_version: 2
+runtime_state: ACTIVE
+runtime_contract: developers/reference/chlom-wallet/passkey/runtime-contract.json
+allowed_origin: https://wallet.crownthrive.com
+rp_id: crownthrive.com
+verification_library: '@simplewebauthn/server@13.3.2'
+```
+
+The service exposes controlled-test actions for:
+
+- registration options;
+- registration verification;
+- authentication options;
+- assertion verification;
+- recovery step-up options;
+- recovery step-up verification.
+
+Its hard-coded boundary remains:
+
+```yaml
+credential_activation: false
+smart_account_binding: false
+smart_account_deployment: false
+chain_broadcast: false
+custody: false
+money_movement: false
+```
+
+The deployed function compiled and is active. An authenticated browser registration/assertion ceremony has **not yet** been represented as executed; that remains a separate canary.
+
+## Challenge and credential data plane
+
+The private `chlom_wallet` runtime now enforces the following model:
+
+1. A 32-byte challenge is generated for registration, authentication or recovery step-up.
+2. Only the SHA-256 challenge digest is persisted.
+3. The challenge is bound to the authenticated subject, stable CHLOM wallet, RP ID, exact HTTPS origin, purpose and expiration.
+4. A challenge is consumed once; exact replay fails closed.
+5. Failed verification attempts append HOLD receipts and cancel the challenge after the bounded threshold.
+6. Registration persists only the credential public key, public-key digest, nonreversible credential lookup/commitment digests, counter, transports, device/backup state and policy evidence.
+7. Assertion verification binds the stored public key, challenge digest, RP ID, origin, user presence, user verification, signature and counter policy.
+8. Every accepted controlled-test ceremony appends a CHLOM ledger event and an immutable verification receipt.
+
+Raw challenges, raw credential identifiers and private key material are not persisted by the governed wallet tables.
+
+## Controlled-test evidence
+
+### Source-controlled registration
+
+The public-safe registration verifier passed:
+
+```yaml
+result: PASS_WEBAUTHN_REGISTRATION_CONTROLLED_TEST
+attestation_profile: none
+cbor_attestation_parsed: true
+rp_id_hash_bound: true
+challenge_bound: true
+origin_bound: true
+user_presence_required: true
+user_verification_required: true
+es256_p256_cose_key_required: true
+deterministic_credential_commitment: true
+attestation_trust_claimed: false
+production_credential_activation: false
+smart_account_deployment: false
+```
+
+The `none` attestation profile proves ceremony validation and public-key extraction; it does not prove authenticator provenance or device trust.
+
+### Source-controlled assertion cryptography
+
+The assertion verifier passed:
+
+```yaml
+result: PASS_WEBAUTHN_ASSERTION_CRYPTO
+es256_p256_signature_verified: true
+challenge_bound: true
+origin_bound: true
+rp_id_hash_bound: true
+user_presence_required: true
+user_verification_required: true
+counter_rollback_rejected: true
+tamper_rejected: true
+private_jwk_rejected: true
+zero_counter_supported_without_false_claim: true
+production_credential_activation: false
+smart_account_deployment: false
+```
+
+### Private database ceremony canary
+
+The integrated runtime data plane passed:
+
+```yaml
+result: PASS_WEBAUTHN_RUNTIME_DB_CANARY
+registration_state: VERIFIED_REGISTRATION_CONTROLLED_TEST
+assertion_state: VERIFIED_ASSERTION_CONTROLLED_TEST
+exact_replay_state: DUPLICATE
+credential_activation: false
+smart_account_deployment: false
+money_movement: false
+```
+
+This canary exercises registration persistence, assertion counter advancement and exact replay at the database boundary. It is not a browser-authenticator canary and does not activate a credential for production use.
+
+### Recovery state machine
+
+The separate recovery canary passed:
+
+```yaml
+result: PASS_PASSKEY_RECOVERY_CANARY
+state_path:
+  - opened
+  - identity_review
+  - cooldown
+  - approved_test
+  - replacement_candidate
+  - old_credential_suspended_test
+  - closed_test
+illegal_skip_rejected: true
+credential_mutation_performed: false
+smart_account_mutation_performed: false
+money_movement: false
+```
+
+Recovery remains a governed state machine, not a direct credential reset.
+
+## Stable wallet and chain identity
+
+CHLOM keeps its institutional wallet identifier above providers and chains:
+
+```text
+ct.wallet.*
+  ├── WebAuthn credential binding
+  ├── provider/payment aliases
+  ├── CAIP-2 chain identity
+  └── CAIP-10 account identity
+```
+
+A blockchain address is an adapter binding, not the sole institutional identity. This preserves provider and chain portability and prevents account-address churn from erasing wallet history.
+
+## ERC-4337 v0.9 unsigned intent
+
+The public-safe reference implementation now builds the exact **unsigned** ERC-4337 v0.9 `PackedUserOperation` intent and EIP-712 hash envelope for the candidate Sepolia EntryPoint.
+
+The builder:
+
+- implements Keccak-256 and validates known vectors;
+- uses the upstream v0.9 `PackedUserOperation` type string;
+- packs verification/call gas and priority/max fee into the required 128-bit pairs;
+- hashes `initCode`, `callData` and empty `paymasterAndData` according to the controlled profile;
+- constructs the `ERC4337` / `1` EIP-712 domain;
+- produces deterministic struct, domain and final UserOperation hashes;
+- rejects signatures, paymasters and nonempty factory/init code;
+- marks opaque call data HOLD;
+- never submits the intent to a bundler or RPC endpoint.
+
+The deterministic test vector is:
+
+```yaml
+result: PASS_ERC4337_V09_INTENT
+chain_id: 11155111
+entrypoint_candidate: '0x433709009B8330FDa32311DF1C2AFA402eD8D009'
+user_operation_hash: '0xbe377d88646d9fe4b6543d66d3142e76272eaedd63ba5790daf8170c50e0f812'
+intent_sha256: '0x63080334e0097834b7d3532e12c69fc8fbfe18230f3b465086b8f212a2a8c8ef'
+signature_state: UNSIGNED
+factory_state: UNSELECTED
+eip7702_state: NOT_SUPPORTED
+paymaster_state: DISABLED
+simulation_state: NOT_RUN
+broadcast: false
+money_movement: false
+```
+
+A Solidity harness independently recomputes the struct hash, domain separator and final UserOperation hash on an isolated in-memory EVM. This is a hash-construction cross-check, not a live EntryPoint simulation.
+
+## EntryPoint source discrepancy
+
+The upstream v0.9 release identifies candidate EntryPoint address:
+
+```text
+0x433709009B8330FDa32311DF1C2AFA402eD8D009
+```
+
+The tagged `deployments/ethereum/EntryPoint.json` artifact observed in the same upstream tag reports the earlier address:
+
+```text
+0x4337084D9E255Ff0702461CF8895CE9E3b5Ff108
+```
+
+CHLOM records this as:
+
+```yaml
+state: RELEASE_AND_TAG_DEPLOYMENT_ARTIFACT_DIVERGE_RUNTIME_CODEHASH_UNVERIFIED
+disposition: HOLD
+```
+
+The release candidate is retained only for deterministic offline hashing. A direct target-chain runtime-code-hash verification is still mandatory before any simulation or broadcast.
+
+## Smart-account and modularity boundary
+
+The candidate profile remains:
+
+```yaml
+profile_id: ct.wallet.smart-account.evm-modular.v1
+chain_id: eip155:11155111
+account_standard: ERC-4337+ERC-7579
+lifecycle_state: specified_not_deployed
+account_implementation_selected: false
+factory_selected: false
+modules_enabled: []
+paymaster_enabled: false
+simulation_completed: false
+broadcast_enabled: false
+money_movement_enabled: false
+```
+
+Session keys, recovery modules, delegated execution and spending modules remain disabled pending implementation-specific review. Conformance to ERC-7579 does not make an arbitrary module safe.
+
+## Promotion gates
+
+Production or public-testnet activation still requires:
+
+- authenticated browser registration and assertion canary against the deployed runtime;
+- production authenticator-attestation policy decision;
+- credential replacement, compromise and recovery drills;
+- target EntryPoint runtime-code-hash verification;
+- reviewed smart-account implementation and factory;
+- reviewed account call-data and factory-init-code encoders;
+- local and public-testnet EntryPoint simulation;
+- independent security review appropriate to value at risk;
+- governed signer and recovery authority receipts;
+- explicit governed testnet broadcast authorization;
+- customer-facing wallet deployment, privacy review and current phase approval.
+
+Until those gates pass, CHLOM Wallet remains a controlled identity, evidence and transaction-intent system—not a deployed blockchain wallet.
+
+## Source references
+
+- WebAuthn Level 3: `https://www.w3.org/TR/webauthn-3/`
+- SimpleWebAuthn v13.3.2: `https://github.com/MasterKale/SimpleWebAuthn/releases/tag/v13.3.2`
+- ERC-4337 v0.9 source: `https://github.com/eth-infinitism/account-abstraction/tree/v0.9.0`
+- ERC-7579: `https://eips.ethereum.org/EIPS/eip-7579`
+- CAIP-2: `https://standards.chainagnostic.org/CAIPs/caip-2`
+- CAIP-10: `https://standards.chainagnostic.org/CAIPs/caip-10`

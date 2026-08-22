@@ -1,0 +1,72 @@
+name: CHLOM Wallet Local EVM
+
+on:
+  pull_request:
+    paths:
+      - "developers/reference/chlom-wallet/contracts/**"
+      - "developers/reference/chlom-wallet/smart-account/**"
+      - "chlom/chlom-wallet-phase-b-evidence.mdx"
+      - ".github/workflows/chlom-wallet-local-evm.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chlom-wallet-local-evm-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  execute:
+    name: Execute wallet registries and hash harness on isolated local EVM
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install exact local-EVM test packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --ignore-scripts --no-save --no-package-lock \
+            solc@0.8.36 \
+            ethers@6.15.0 \
+            ganache@7.9.2
+          node -e "console.log(require('solc').version())" | tee /tmp/solc-version.txt
+          grep -E '^0\.8\.36\+' /tmp/solc-version.txt
+
+      - name: Execute no-value registry invariant suite
+        run: node developers/reference/chlom-wallet/contracts/local-evm-test.mjs
+
+      - name: Cross-check ERC-4337 v0.9 intent hash in Solidity
+        run: node developers/reference/chlom-wallet/smart-account/user-operation-hash-crosscheck.mjs
+
+      - name: Enforce isolated execution boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          files=(
+            developers/reference/chlom-wallet/contracts/local-evm-test.mjs
+            developers/reference/chlom-wallet/smart-account/user-operation-hash-crosscheck.mjs
+            developers/reference/chlom-wallet/smart-account/user-operation-intent.mjs
+          )
+          if grep -nE 'https?://|wss?://' "${files[@]}"; then
+            echo "Local EVM tests must not contain an external RPC URL."
+            exit 1
+          fi
+          if grep -nE 'sk_live_|whsec_|-----BEGIN .*PRIVATE KEY-----|mnemonic|seed phrase' "${files[@]}"; then
+            echo "Local EVM tests must not contain production credential material."
+            exit 1
+          fi
+          if grep -nE 'broadcast:[[:space:]]*true|money_movement:[[:space:]]*true' "${files[@]}"; then
+            echo "Local EVM test crossed its nonbroadcast boundary."
+            exit 1
+          fi
+
+      - name: Record boundary
+        run: |
+          echo "CONTROLLED_TEST: execution occurs only on an in-memory Ganache chain (chain ID 1337)."
+          echo "The ERC-4337 harness recomputes hashes only; it does not deploy an account or call a public EntryPoint."
+          echo "No external RPC, funded production signer, testnet transaction, mainnet transaction, custody, or value movement is authorized."
+          echo "Passing local EVM execution is not a security audit."
