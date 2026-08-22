@@ -1,0 +1,240 @@
+name: CHLOM Institutionalization Runtime v2
+
+on:
+  pull_request:
+    paths:
+      - "developers/reference/chlom-wallet/institutionalization/runtime/**"
+      - "developers/reference/chlom-wallet/institutionalization/sql/**"
+      - "automation/chlom-institutionalization-runtime-*.mjs"
+      - "automation/chlom-institutionalization-runtime-handoffs.v2.json"
+      - "developers/chlom-institutionalization-runtime-v2.mdx"
+      - "security/chlom-institutionalization-oidc-runtime-threat-model.mdx"
+      - ".github/workflows/chlom-wallet-institutionalization-runtime-v2.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chlom-institutionalization-runtime-v2-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  runtime-contract:
+    name: Validate OIDC runtime, lineage fence, real ingest, and boundaries
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Verify source and machine syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --version
+          node --check developers/reference/chlom-wallet/institutionalization/runtime/github-oidc-contract-v2.mjs
+          node --check developers/reference/chlom-wallet/institutionalization/runtime/oidc-runtime-utils-v2.mjs
+          node --check developers/reference/chlom-wallet/institutionalization/runtime/oidc-jwt-verifier-v2.mjs
+          node --check developers/reference/chlom-wallet/institutionalization/runtime/github-repository-binding-v2.mjs
+          node --check developers/reference/chlom-wallet/institutionalization/runtime/test-github-oidc-contract-v2.mjs
+          node --check developers/reference/chlom-wallet/institutionalization/runtime/test-module-linkage-v2.mjs
+          node --check developers/reference/chlom-wallet/institutionalization/runtime/runtime-deployment-lineage-fence-v1.mjs
+          node --check developers/reference/chlom-wallet/institutionalization/runtime/test-runtime-deployment-lineage-fence-v1.mjs
+          node --check automation/chlom-institutionalization-runtime-advisor.mjs
+          node --check automation/test-chlom-institutionalization-runtime-advisor.mjs
+          python -m json.tool developers/reference/chlom-wallet/institutionalization/runtime/oidc-claims.v2.schema.json >/dev/null
+          python -m json.tool developers/reference/chlom-wallet/institutionalization/runtime/runtime-contract.v2.json >/dev/null
+          python -m json.tool developers/reference/chlom-wallet/institutionalization/runtime/recovery-plan.v2.json >/dev/null
+          python -m json.tool developers/reference/chlom-wallet/institutionalization/runtime/commercialization-boundary.v2.json >/dev/null
+          python -m json.tool developers/reference/chlom-wallet/institutionalization/runtime/deployment-reconciliation.v2.json >/dev/null
+          python -m json.tool developers/reference/chlom-wallet/institutionalization/runtime/real-oidc-ingest-evidence.v2.json >/dev/null
+          python -m json.tool developers/reference/chlom-wallet/institutionalization/runtime/runtime-deployment-lineage-fence.v1.json >/dev/null
+          python -m json.tool automation/chlom-institutionalization-runtime-handoffs.v2.json >/dev/null
+          grep -F 'export const encoder = new TextEncoder();' developers/reference/chlom-wallet/institutionalization/runtime/oidc-runtime-utils-v2.mjs >/dev/null
+          grep -F 'export const decoder = new TextDecoder();' developers/reference/chlom-wallet/institutionalization/runtime/oidc-runtime-utils-v2.mjs >/dev/null
+          grep -F 'create or replace function chlom_wallet.run_institutionalization_oidc_subject_canary_v2()' developers/reference/chlom-wallet/institutionalization/sql/chlom-wallet-institutionalization-oidc-v2.sql >/dev/null
+
+      - name: Run module-linkage regression contract
+        run: node developers/reference/chlom-wallet/institutionalization/runtime/test-module-linkage-v2.mjs
+
+      - name: Run deployment-lineage fence tests
+        run: node developers/reference/chlom-wallet/institutionalization/runtime/test-runtime-deployment-lineage-fence-v1.mjs
+
+      - name: Run GitHub OIDC unit contract
+        run: node developers/reference/chlom-wallet/institutionalization/runtime/test-github-oidc-contract-v2.mjs
+
+      - name: Run deterministic runtime advisor
+        run: node automation/test-chlom-institutionalization-runtime-advisor.mjs
+
+      - name: Validate deployed runtime, real ingest, and lineage fence contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          runtime=json.load(open('developers/reference/chlom-wallet/institutionalization/runtime/runtime-contract.v2.json'))
+          reconciliation=json.load(open('developers/reference/chlom-wallet/institutionalization/runtime/deployment-reconciliation.v2.json'))
+          ingest=json.load(open('developers/reference/chlom-wallet/institutionalization/runtime/real-oidc-ingest-evidence.v2.json'))
+          fence=json.load(open('developers/reference/chlom-wallet/institutionalization/runtime/runtime-deployment-lineage-fence.v1.json'))
+
+          assert runtime['contract_id']=='ct.runtime.chlom-institutionalization-v2'
+          assert runtime['state']=='ACTIVE_REAL_PACKAGE_INGESTED'
+          edge=runtime['edge_function']
+          assert edge['service_id']=='ct.service.chlom-wallet-institutionalize-v2'
+          assert edge['function_id']=='a9fa1f5d-908d-4807-9d35-20c95d161507'
+          assert edge['slug']=='chlom-wallet-institutionalize-v2'
+          assert edge['version']==4
+          assert edge['status']=='ACTIVE'
+          assert edge['verify_jwt'] is False
+          assert edge['authentication_mode']=='INTERNAL_GITHUB_OIDC_RS256_JWKS_VERIFICATION'
+          assert edge['ezbr_sha256']=='9dfec88ed84103fb43e332a11b1877d87f01fb3eae2b280b1125434b4a711b4f'
+          assert edge['module_linkage_regression_test'].endswith('test-module-linkage-v2.mjs')
+          assert edge['deployment_reconciliation'].endswith('deployment-reconciliation.v2.json')
+          assert edge['real_ingest_evidence'].endswith('real-oidc-ingest-evidence.v2.json')
+          oidc=runtime['github_oidc']
+          assert oidc['repository_id']=='1336348391'
+          assert oidc['repository_owner_id']=='315660018'
+          assert oidc['legacy_subject_supported'] is True
+          assert oidc['immutable_subject_supported'] is True
+          assert oidc['actor_pinned'] is True
+          assert oidc['github_hosted_runner_required'] is True
+          binding=runtime['package_binding']
+          assert binding['frozen_source_head']=='64118e61c7671a78b43999ac5f17f9eddd1226b1'
+          assert binding['package_digest_sha256']=='7b3be50d5541fff14127bfdd24724eb9b8b9f9ffd4b165a380dee02f2a1ef957'
+          assert binding['frozen_source_ancestor_required'] is True
+          assert binding['committed_manifest_readback_required'] is True
+          assert binding['submitted_manifest_must_equal_committed_manifest'] is True
+          assert runtime['database']['raw_oidc_token_persisted'] is False
+          assert runtime['database']['raw_artifact_body_persisted'] is False
+          assert runtime['canaries']['runtime_module_linkage']=='PASS_CHLOM_INSTITUTIONALIZATION_RUNTIME_MODULE_LINKAGE_V2'
+          assert runtime['canaries']['deployed_unauthenticated_liveness']=='PASS_UNAUTHENTICATED_401_FAIL_CLOSED'
+          recording=runtime['current_recording_state']
+          assert recording['real_package_recorded'] is True
+          assert recording['real_oidc_ingest_receipt_recorded'] is True
+          assert recording['package_record_id']=='7e5bbe59-b486-402c-b361-a390074546da'
+          assert recording['first_real_ingest_receipt_id']=='8183012f-ff77-4f67-91ee-eeb3931050cc'
+          assert recording['package_state']=='PASS_CONTROLLED_TEST_INSTITUTIONALIZATION'
+          assert recording['ingest_state']=='RECORDED_CONTROLLED_TEST_EVIDENCE'
+          assert recording['artifact_count']==17
+          assert recording['algorithm_count']==5
+          assert recording['gap_count']==0
+          assert recording['completeness_score']==100
+          assert runtime['ai_governance']['advisory_only'] is True
+          assert runtime['ai_governance']['decision_authority'] is False
+          assert runtime['ai_governance']['write_authority'] is False
+          assert runtime['ai_governance']['automatic_release'] is False
+          assert all(value is False for value in runtime['hard_boundaries'].values())
+
+          assert reconciliation['state']=='RESOLVED_REAL_OIDC_PACKAGE_INGESTED'
+          assert reconciliation['failure_observation']['observed_http_status']==503
+          assert reconciliation['failure_observation']['observed_error_code']=='BOOT_ERROR'
+          assert reconciliation['root_cause']['classification']=='DEPLOYED_MODULE_EXPORT_DRIFT'
+          assert reconciliation['corrective_action']['redeployed_version']==4
+          assert reconciliation['corrective_action']['redeployed_ezbr_sha256']==edge['ezbr_sha256']
+          assert reconciliation['verification_state']['module_linkage_result']=='PASS_CHLOM_INSTITUTIONALIZATION_RUNTIME_MODULE_LINKAGE_V2'
+          assert reconciliation['verification_state']['unauthenticated_liveness_result']=='PASS_UNAUTHENTICATED_401_FAIL_CLOSED'
+          assert reconciliation['verification_state']['real_package_recorded'] is True
+          assert reconciliation['verification_state']['real_oidc_ingest_receipt_recorded'] is True
+          assert reconciliation['verification_state']['package_artifact_count']==17
+          assert reconciliation['verification_state']['package_algorithm_count']==5
+          assert reconciliation['verification_state']['package_gap_count']==0
+          assert reconciliation['verification_state']['package_completeness_score']==100
+          assert all(value is False for value in reconciliation['hard_boundaries'].values())
+
+          assert ingest['state']=='RECORDED_CONTROLLED_TEST_EVIDENCE'
+          assert ingest['package']['package_record_id']=='7e5bbe59-b486-402c-b361-a390074546da'
+          assert ingest['package']['package_digest_sha256']==binding['package_digest_sha256']
+          assert ingest['package']['artifact_count']==17
+          assert ingest['package']['algorithm_count']==5
+          assert ingest['package']['gap_count']==0
+          assert ingest['package']['completeness_score']==100
+          assert ingest['first_real_oidc_ingest']['record_result']=='RECORDED_INSTITUTIONALIZATION_PACKAGE_V2'
+          assert ingest['latest_verified_ingest']['record_result']=='DUPLICATE_PACKAGE_DIGEST'
+          assert ingest['runtime']['version']==4
+          assert ingest['runtime']['ezbr_sha256']==edge['ezbr_sha256']
+          assert ingest['public_status']['real_package_recorded'] is True
+          assert ingest['public_status']['real_oidc_ingest_receipt_recorded'] is True
+          assert all(value is False for value in ingest['hard_boundaries'].values())
+
+          assert fence['algorithm_id']=='ct.algorithm.chlom.runtime-deployment-lineage-fence.v1'
+          assert fence['short_name']=='RDLF'
+          assert fence['semantic_version']=='1.0.0'
+          assert fence['state']=='CONTROLLED_TEST'
+          assert fence['implementation']['export']=='evaluateRuntimeDeploymentLineageV1'
+          assert fence['current_evidence']['failed_deployment_version']==3
+          assert fence['current_evidence']['failed_disposition']=='HOLD_CHLOM_RUNTIME_DEPLOYMENT_LINEAGE_FENCE_V1'
+          assert fence['current_evidence']['corrected_deployment_version']==4
+          assert fence['current_evidence']['corrected_disposition']=='PASS_CHLOM_RUNTIME_DEPLOYMENT_LINEAGE_FENCE_V1'
+          assert fence['current_evidence']['canary_result']=='PASS_CHLOM_RUNTIME_DEPLOYMENT_LINEAGE_FENCE_V1_CANARY'
+          assert fence['current_evidence']['canary_evidence_digest_sha256']=='bed42aee9428ef6e6d5ec6984cc17dc1d939d8c47fb20681d80fb58234c42d6c'
+          assert len(fence['negative_cases'])>=19
+          assert fence['commercialization_candidate']['candidate_only'] is True
+          assert fence['commercialization_candidate']['effective_offer'] is False
+          assert fence['commercialization_candidate']['stripe_objects_created'] is False
+          assert fence['commercialization_candidate']['checkout_enabled'] is False
+          assert fence['ai_governance']['decision_authority'] is False
+          assert fence['ai_governance']['write_authority'] is False
+          assert fence['ai_governance']['automatic_release'] is False
+          assert all(value is False for value in fence['hard_boundaries'].values())
+          PY
+
+      - name: Verify unauthenticated requests fail closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          body=$(mktemp)
+          status=$(curl --silent --show-error --location --max-time 30 \
+            --output "$body" --write-out '%{http_code}' \
+            --request POST --header 'content-type: application/json' --data '{}' \
+            'https://tzajnzshmtzjenqulehq.supabase.co/functions/v1/chlom-wallet-institutionalize-v2')
+          test "$status" = '401'
+          python - "$body" <<'PY'
+          import json,sys
+          value=json.load(open(sys.argv[1]))
+          assert value=={'ok':False,'error':'github_oidc_bearer_required'}
+          PY
+          rm -f "$body"
+
+      - name: Enforce no-secret and no-authority boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          files=(
+            developers/reference/chlom-wallet/institutionalization/runtime/index.ts
+            developers/reference/chlom-wallet/institutionalization/runtime/github-oidc-contract-v2.mjs
+            developers/reference/chlom-wallet/institutionalization/runtime/oidc-runtime-utils-v2.mjs
+            developers/reference/chlom-wallet/institutionalization/runtime/oidc-jwt-verifier-v2.mjs
+            developers/reference/chlom-wallet/institutionalization/runtime/github-repository-binding-v2.mjs
+            developers/reference/chlom-wallet/institutionalization/runtime/test-github-oidc-contract-v2.mjs
+            developers/reference/chlom-wallet/institutionalization/runtime/test-module-linkage-v2.mjs
+            developers/reference/chlom-wallet/institutionalization/runtime/runtime-deployment-lineage-fence-v1.mjs
+            developers/reference/chlom-wallet/institutionalization/runtime/test-runtime-deployment-lineage-fence-v1.mjs
+            developers/reference/chlom-wallet/institutionalization/runtime/runtime-deployment-lineage-fence.v1.json
+            developers/reference/chlom-wallet/institutionalization/runtime/oidc-claims.v2.schema.json
+            developers/reference/chlom-wallet/institutionalization/runtime/runtime-contract.v2.json
+            developers/reference/chlom-wallet/institutionalization/runtime/recovery-plan.v2.json
+            developers/reference/chlom-wallet/institutionalization/runtime/commercialization-boundary.v2.json
+            developers/reference/chlom-wallet/institutionalization/runtime/deployment-reconciliation.v2.json
+            developers/reference/chlom-wallet/institutionalization/runtime/real-oidc-ingest-evidence.v2.json
+            developers/reference/chlom-wallet/institutionalization/sql/chlom-wallet-institutionalization-oidc-v2.sql
+            automation/chlom-institutionalization-runtime-advisor.mjs
+            automation/test-chlom-institutionalization-runtime-advisor.mjs
+            automation/chlom-institutionalization-runtime-handoffs.v2.json
+            developers/chlom-institutionalization-runtime-v2.mdx
+            security/chlom-institutionalization-oidc-runtime-threat-model.mdx
+          )
+          if grep -nE -- 'sk_live_[A-Za-z0-9]{16,}|rk_live_[A-Za-z0-9]{16,}|whsec_[A-Za-z0-9]{16,}|sb_secret_[A-Za-z0-9._-]{16,}|-----BEGIN (RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----' "${files[@]}"; then
+            echo 'Potential live secret-shaped material detected in institutionalization runtime source.'
+            exit 1
+          fi
+          if grep -nE -- '"(provider_write|credential_access|effective_offer|stripe_objects_created|checkout_enabled|custody|token_issuance|money_movement|production_rights_grant|chain_broadcast|automatic_profile_promotion|phase_advancement|merge_authorized)"[[:space:]]*:[[:space:]]*true' "${files[@]}"; then
+            echo 'Institutionalization runtime source crossed a live or authority boundary.'
+            exit 1
+          fi
+
+      - name: Record boundary
+        run: |
+          echo 'CONTROLLED_TEST: source, OIDC verifier, module linkage, RDLF deployment-lineage fence, real package ingest evidence, advisor, recovery, pricing and documentation contracts validated.'
+          echo 'Unauthenticated Edge requests fail closed. Historical version-3 BOOT_ERROR evidence is preserved while version 4 passes the lineage fence.'
+          echo 'No token value, raw artifact body, provider write, credential access, Stripe object, checkout, custody, token issuance, money movement, rights grant, chain broadcast, phase advancement or merge authority is created.'

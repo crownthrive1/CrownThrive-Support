@@ -1,0 +1,72 @@
+name: CHLOM Institutionalization Continuity v2 Manifest Guard
+
+on:
+  pull_request:
+    paths:
+      - "automation/chlom-institutionalization-continuity-v2.json"
+      - "automation/compile-chlom-institutionalization.mjs"
+      - "developers/manifests/chlom-wallet-phase-c-institutionalization.v2.json"
+      - ".github/workflows/chlom-institutionalization-continuity-v2-manifest-repair.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chlom-continuity-v2-manifest-guard-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Rebuild frozen package and require byte-identical committed manifest
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out full repository history without write credential
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Rebuild and compare committed manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          frozen='d6187bd9a9a5af12cf1121d761d325943cc63daa'
+          target='developers/manifests/chlom-wallet-phase-c-institutionalization.v2.json'
+          git cat-file -e "${frozen}^{commit}"
+          git merge-base --is-ancestor "$frozen" HEAD
+          node automation/compile-chlom-institutionalization.mjs \
+            --spec automation/chlom-institutionalization-continuity-v2.json \
+            --repo-root . \
+            --output /tmp/chlom-wallet-phase-c-institutionalization.v2.json \
+            >/tmp/chlom-continuity-v2-manifest-guard.log
+          cmp "$target" /tmp/chlom-wallet-phase-c-institutionalization.v2.json
+          python - <<'PY'
+          import json
+          p=json.load(open('developers/manifests/chlom-wallet-phase-c-institutionalization.v2.json'))
+          assert p['schema_version']=='1.0.0'
+          assert p['package_id']=='ct.package.chlom-wallet.phase-c.institutionalization.v2'
+          assert p['semantic_version']=='2.0.0'
+          assert p['state']=='PASS_CONTROLLED_TEST_INSTITUTIONALIZATION'
+          assert p['source_snapshot']['head_sha']=='d6187bd9a9a5af12cf1121d761d325943cc63daa'
+          assert p['artifact_counts']['total']==19
+          assert len(p['algorithm_registry'])==4
+          assert p['gap_analysis']['gap_count']==0
+          assert p['gap_analysis']['completeness_score']==100
+          assert p['package_digest_sha256']=='c3433c0cc3f97003a8fbe75a5308edf68bf3b2bd19882d90dfeefe2bd2e15248'
+          assert p['rights']['state']=='HOLD_INDEPENDENT_RIGHTS_REVIEW'
+          assert p['commercialization']['state']=='PRICE_REVIEW'
+          assert all(value is False for value in p['hard_boundaries'].values())
+          paths={item['path'] for item in p['artifact_inventory']}
+          assert 'developers/reference/chlom-wallet/institutionalization/runtime/runtime-deployment-lineage-fence-v1.mjs' in paths
+          assert not any('vuntime-deployment-lineage-fence' in path for path in paths)
+          PY
+
+      - name: Enforce read-only guard boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git status --porcelain)"
+          echo 'READ_ONLY_GUARD: deterministic compiler output is byte-identical to the committed v2 manifest.'
+          echo 'No source write, THIVEBASE write, reviewer heartbeat, review receipt, provider write, credential access, Stripe object, checkout, signing, custody, token issuance, money movement, rights grant, chain broadcast, phase advancement, or merge authority occurs.'
